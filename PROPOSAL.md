@@ -9,19 +9,19 @@ I decided to design and implement **Bubble Bounce** for my CS 126 Final Project.
 
 ## Timeline
 ### Week 1:
-Design and implement all the object classes required for the game. These include:
+* Design and implement all the object classes required for the game. These include:
     - Ball
     - Bubbles
     - Paddle
     - The GameEngine
-Design a strategy to manage various ball-bubble-panel collision scenarios:
+* Design a strategy to manage various ball-bubble-panel collision scenarios:
     - when a ball hits the upper, left, and right panels
     - when a ball falls through the bottom floor
     - when a ball bounces off the paddle
     - when a ball hits the bubbles
    
 ### Week 2:
-Design and implement the graphical User Interface for displaying:
+* Design and implement the graphical User Interface for displaying:
     - class(es) to handle graphical UI
     - the Game Window
     - playing instructions
@@ -29,13 +29,13 @@ Design and implement the graphical User Interface for displaying:
     - User Lives Remaining count
    
 ### Week 3:
-Design and implement graphics for game components:
+* Design and implement graphics for game components:
     - Game Winning Screen
     - Game Losing Screen
     - Ball, paddle, chestnuts, dashboard, backgrounds, etc
     - Integrate game UI with internal classes
  
-Throughout the weeks, there will also be various test cases to:
+* Throughout the weeks, there will also be various test cases to:
     - Ensure all testable features function properly
     - Ensure proper physics and graphical user interface integrate well
     - Check various edge cases (ie different scenarios of bubble-ball-wall interactions)
