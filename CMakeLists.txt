@@ -1,12 +1,13 @@
-#cmake_minimum_required(VERSION 3.12 FATAL_ERROR)
+cmake_minimum_required(VERSION 3.12 FATAL_ERROR)
 #set(CMAKE_CXX_STANDARD 11)
 
-cmake_minimum_required(VERSION 3.17)
+#cmake_minimum_required(VERSION 3.17)
 project(bubble-bounce-app)
 set(CMAKE_CXX_STANDARD 14)
 
 #add_executable(final_project_joannah2 main.cpp)
-
+set(CMAKE_CXX_FLAGS_RELEASE "${CMAKE_CXX_FLAGS_RELEASE} /MT")
+set(CMAKE_CXX_FLAGS_DEBUG "${CMAKE_CXX_FLAGS_DEBUG} /MTd")
 
 # This tells the compiler to not aggressively optimize and
 # to include debugging information so that the debugger
@@ -55,7 +56,12 @@ get_filename_component(APP_PATH "${CMAKE_CURRENT_SOURCE_DIR}/" ABSOLUTE)
 
 include("${CINDER_PATH}/proj/cmake/modules/cinderMakeApp.cmake")
 
-list(APPEND SOURCE_FILES  src/bubble_bounce_app.cc)
+list(APPEND SOURCE_FILES  
+        src/container.cc
+        src/bubble_bounce_app.cc
+        src/bubble.cc
+        src/ball.cc
+        src/collision_manager.cc)
 
 list(APPEND TEST_FILES   )
 
