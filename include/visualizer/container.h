@@ -90,7 +90,7 @@ namespace bubblebounce {
     void UpdateVelocitiesIfBubbleCollision();
     
     bool HasVerticalWallCollision();
-    bool HasHorizontalWallCollision();
+    bool HasTopWallCollision();
     bool HasBubbleCollision(const Bubble& bubble);
   };
 

@@ -8,7 +8,7 @@ namespace bubblebounce {
   static constexpr float kDefaultBallRadius = 25.0f;
   static constexpr double kBallMass = 10;
   const glm::vec2 kDefaultBallPosition{450, 725};
-  const glm::vec2 kDefaultBallVelocity{10, 10};
+  const glm::vec2 kDefaultBallVelocity{10, -10};
   
   Container::Container(const glm::vec2& top_left, const glm::vec2& bottom_right) 
                        : ball_(kBallColor, kDefaultBallPosition, kDefaultBallVelocity, kDefaultBallRadius, kBallMass),
@@ -58,7 +58,7 @@ namespace bubblebounce {
   }
 
   void Container::UpdateVelocitiesIfWallCollision() {
-    if (HasHorizontalWallCollision()) {
+    if (HasTopWallCollision()) {
       ball_.ReverseYVelocity();
     }
     if (HasVerticalWallCollision()) {
@@ -80,6 +80,7 @@ namespace bubblebounce {
       if (HasBubbleCollision(bubbles_.at(i))) {
 //        ball_.SetVelocity(CalculateNewBallVelocity(bubbles_.at(i)));
         ball_.ReverseYVelocity();
+        ball_.ReverseXVelocity();
         bubbles_.erase(bubbles_.begin() + i);
         break;
       }
@@ -92,10 +93,8 @@ namespace bubblebounce {
                 >= bottom_right_.x) && ball_.GetVelocity().x > 0);
   }
 
-  bool Container::HasHorizontalWallCollision() {
-    return ((ball_.GetPosition().y - ball_.GetRadius() <= top_left_.y) && ball_.GetVelocity().y < 0)
-           || ((ball_.GetPosition().y + ball_.GetRadius()
-                >= bottom_right_.y) && ball_.GetVelocity().y > 0);
+  bool Container::HasTopWallCollision() {
+    return ((ball_.GetPosition().y - ball_.GetRadius() <= top_left_.y) && ball_.GetVelocity().y < 0);
   }
 
   bool Container::HasBubbleCollision(const Bubble& bubble) {
