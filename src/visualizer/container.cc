@@ -1,16 +1,18 @@
 #include "visualizer/container.h"
 
 namespace bubblebounce {
-
   using glm::vec2;
-
+  const glm::vec2 kPaddleTopLeft{350, 750};
+  const glm::vec2 kPaddleBottomRight{550, 800};
+  const ci::Color kBallColor("blue");
+  static constexpr float kDefaultBallRadius = 25.0f;
+  static constexpr double kBallMass = 10;
+  
   Container::Container(const glm::vec2& top_left, const glm::vec2& bottom_right) 
-                       : ball_(ci::Color("blue"), glm::vec2{450, 725},
-                               glm::vec2{0,0}, 25.0f, 10),
-                       level_(top_left, bottom_right),
-                       paddle_(kPaddleTopLeft, kPaddleBottomRight){
-    if (top_left.x >= bottom_right.x
-        || top_left.y >= bottom_right.y) {
+                       : ball_(kBallColor, ball_position_, ball_velocity_, kDefaultBallRadius, kBallMass),
+                         level_defaults_(top_left, bottom_right),
+                         paddle_(kPaddleTopLeft, kPaddleBottomRight) {
+    if (top_left.x >= bottom_right.x  || top_left.y >= bottom_right.y) {
       throw std::invalid_argument("Top left corner coordinates must be "
                                   "less than bottom right corner coordinates.");
       /**
@@ -20,13 +22,13 @@ namespace bubblebounce {
     }
     top_left_ = top_left;
     bottom_right_ = bottom_right;
-    
-    for (size_t i = 0; i < level_.GetInitialBubbleCount(); ++i) {
+    size_t bubble_count = level_defaults_.GetLevelDefaultBubbleCount(1);
+    for (size_t i = 0; i < bubble_count; ++i) {
       Bubble bubble(ci::Color("blue"), glm::vec2(0, 0), 40.0f,
                     Bubble::NormalBubble, Bubble::Strong);
       bubbles_.emplace_back(bubble);
     }
-    level_.GenerateBubblePositions(bubbles_);
+    level_defaults_.GenerateBubblePositions(bubbles_, 1);
   }
 
   void Container::Display() const {
@@ -44,33 +46,59 @@ namespace bubblebounce {
   }
 
   void Container::AdvanceOneFrame() {
-//    Bubble bubble(ci::Color("blue"), glm::vec2(0, 0), 25.0f,
-//                  Bubble::NormalBubble, Bubble::Strong);
-//    bubbles_.emplace_back(bubble);
-//    UpdateVelocitiesIfWallCollision();
-//    UpdateVelocitiesIfBubbleCollision();
+    UpdateVelocitiesIfWallCollision();
+    UpdateVelocitiesIfBubbleCollision();
 
 //  for (Bubble& bubble : bubbles_) {
 //    bubble.IncreasePositionByVelocity();
 //  }
   }
 
-//void Container::UpdateVelocitiesIfWallCollision() {
-//  bool has_vertical_wall_collision = collision_manager_.HasWallCollision(
-//      ball_, kXDirection, top_left_, bottom_right_);
-//  bool has_horizontal_wall_collision =
-//      collision_manager_.HasWallCollision(ball_, kYDirection,
-//                                                     top_left_,
-//                                                     bottom_right_);
-//    if (has_horizontal_wall_collision) {
-//      ball_.ReverseYVelocity();
-//    }
-//    if (has_vertical_wall_collision) {
-//      ball_.ReverseXVelocity();
-//    }
-//  }
-//}
+  void Container::UpdateVelocitiesIfWallCollision() {
+    if (HasHorizontalWallCollision()) {
+      ball_.ReverseYVelocity();
+    }
+    if (HasVerticalWallCollision()) {
+      ball_.ReverseXVelocity();
+    }
+  }
 
+  void Container::UpdateVelocitiesIfBubbleCollision() {
+    for (auto it = bubbles_.begin(); it != bubbles_.end(); ++it) {
+      if (HasBubbleCollision(*it)) {
+        bubbles_.erase(it);
+      }
+    }
+  }
+
+  bool Container::HasVerticalWallCollision() {
+    return ((ball_.GetPosition().x - ball_.GetRadius()
+             <= top_left_.x) && ball_.GetVelocity().x < 0)
+           || ((ball_.GetPosition().x + ball_.GetRadius()
+                >= bottom_right_.x) && ball_.GetVelocity().x > 0);
+  }
+
+  bool Container::HasHorizontalWallCollision() {
+    return ((ball_.GetPosition().y - ball_.GetRadius() <= top_left_.y) && ball_.GetVelocity().y < 0)
+           || ((ball_.GetPosition().y + ball_.GetRadius()
+                >= bottom_right_.y) && ball_.GetVelocity().y > 0);
+  }
+
+  bool Container::HasBubbleCollision(const Bubble& bubble) {
+    /*
+     * Variable names follow common arithmetic variable convention
+     * v = velocity, r = radius, x = position
+     */
+    glm::vec2 v_1 = ball_.GetVelocity();
+    glm::vec2 v_2 = glm::vec2{0, 0};
+    double r_1 = ball_.GetRadius();
+    double r_2 = ball_.GetRadius();
+    glm::vec2 x_1 = ball_.GetPosition();
+    glm::vec2 x_2 = bubble.GetPosition();
+
+    return (glm::distance(x_1, x_2) <= r_1 + r_2) && (glm::dot((v_1 - v_2), x_1 - x_2) < 0);
+  }
+  
   void Container::AddBubbleToContainer(const Bubble& bubble) {
     bubbles_.emplace_back(bubble);
   }
@@ -91,13 +119,12 @@ namespace bubblebounce {
       corner_x_values = {top_left_.x, top_left_.x + paddle_.GetLength()};
       // set the left corner as container top left
     } else if (right >= bottom_right_.x) {
-      // set the right corner as container bottomr right
+      // set the right corner as container bottom right
       corner_x_values = {bottom_right_.x - paddle_.GetLength(), bottom_right_.x};
     } else {
       corner_x_values = {left, right};
     }
-    // determine the left and right corners with the center mouse_position
     paddle_.SetXPosition(corner_x_values);
   }
-
+  
 }  // namespace bubblebounce

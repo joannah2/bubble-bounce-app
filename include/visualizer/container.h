@@ -1,14 +1,12 @@
 #pragma once
 
+#include <core/game_level_defaults.h>
 #include "cinder/gl/gl.h"
-#include "core/collision_manager.h"
 #include "core/bubble.h"
 #include "core/ball.h"
-#include "core/collision_manager.h"
 #include "core/game_level.h"
 
 namespace bubblebounce {
-
 /**
  * The container in which all of the gas particles are contained. This class
  * stores all of the particles and updates them on each frame of the simulation.
@@ -50,7 +48,13 @@ namespace bubblebounce {
 
     std::vector<Bubble>& GetContainerBubbles();
     
+    // determine the left and right corners with the center mouse_position
     void UpdatePaddlePosition(const glm::vec2& mouse_position);
+
+    enum Direction {
+      kXDirection,
+      kYDirection
+    };
 
   private:
     /* Container attributes */
@@ -63,23 +67,14 @@ namespace bubblebounce {
     /* Store and manage bubbles and ball*/
     Ball ball_;
     std::vector<Bubble> bubbles_;
-    CollisionManager collision_manager_;
 
     // Initial positions
-    glm::vec2 kPaddleTopLeft = glm::vec2{350, 750};
-    glm::vec2 kPaddleBottomRight = glm::vec2{550, 800};
 
-    glm::vec2 ball_position_ = glm::vec2{450, 750};
-    const float kBallRadius = 10;
-    double kBallMass = 10;
+    glm::vec2 ball_position_{450, 750};
+    glm::vec2 ball_velocity_ {0, 0};
     
-    GameLevel level_;
+    GameLevelDefaults level_defaults_;
     Paddle paddle_;
-    
-    enum Direction {
-      kXDirection,
-      kYDirection
-    };
     
     /**
      * Update particle velocity accordingly if particle collides with the
@@ -93,6 +88,10 @@ namespace bubblebounce {
      * Update both particle's velocities accordingly if 2 particles collide.
      */
     void UpdateVelocitiesIfBubbleCollision();
+    
+    bool HasVerticalWallCollision();
+    bool HasHorizontalWallCollision();
+    bool HasBubbleCollision(const Bubble& bubble);
   };
 
 }  // namespace bubblebounce
