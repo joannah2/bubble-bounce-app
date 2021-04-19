@@ -7,9 +7,11 @@ namespace bubblebounce {
   const ci::Color kBallColor("blue");
   static constexpr float kDefaultBallRadius = 25.0f;
   static constexpr double kBallMass = 10;
+  const glm::vec2 kDefaultBallPosition{450, 725};
+  const glm::vec2 kDefaultBallVelocity{10, 10};
   
   Container::Container(const glm::vec2& top_left, const glm::vec2& bottom_right) 
-                       : ball_(kBallColor, ball_position_, ball_velocity_, kDefaultBallRadius, kBallMass),
+                       : ball_(kBallColor, kDefaultBallPosition, kDefaultBallVelocity, kDefaultBallRadius, kBallMass),
                          level_defaults_(top_left, bottom_right),
                          paddle_(kPaddleTopLeft, kPaddleBottomRight) {
     if (top_left.x >= bottom_right.x  || top_left.y >= bottom_right.y) {
@@ -48,7 +50,8 @@ namespace bubblebounce {
   void Container::AdvanceOneFrame() {
     UpdateVelocitiesIfWallCollision();
     UpdateVelocitiesIfBubbleCollision();
-
+    
+    ball_.IncreasePositionByVelocity();
 //  for (Bubble& bubble : bubbles_) {
 //    bubble.IncreasePositionByVelocity();
 //  }
@@ -64,16 +67,27 @@ namespace bubblebounce {
   }
 
   void Container::UpdateVelocitiesIfBubbleCollision() {
-    for (auto it = bubbles_.begin(); it != bubbles_.end(); ++it) {
-      if (HasBubbleCollision(*it)) {
-        bubbles_.erase(it);
+    // if there was a collision with the bubble, remove the bubble
+    // remove erase idiom:
+    //    bubbles_.erase(std::remove_if(bubbles_.begin(), bubbles_.end(), HasBubbleCollision()), bubbles_.end());
+    
+    for (size_t i = 0; i < bubbles_.size(); ++i) {
+//      if (i > 3) {
+//        ball_.SetVelocity(CalculateNewBallVelocity(bubbles_.at(i)));
+//        bubbles_.erase(bubbles_.begin() + i);
+//        --i;
+//      }
+      if (HasBubbleCollision(bubbles_.at(i))) {
+//        ball_.SetVelocity(CalculateNewBallVelocity(bubbles_.at(i)));
+        ball_.ReverseYVelocity();
+        bubbles_.erase(bubbles_.begin() + i);
+        break;
       }
     }
   }
 
   bool Container::HasVerticalWallCollision() {
-    return ((ball_.GetPosition().x - ball_.GetRadius()
-             <= top_left_.x) && ball_.GetVelocity().x < 0)
+    return ((ball_.GetPosition().x - ball_.GetRadius() <= top_left_.x) && ball_.GetVelocity().x < 0)
            || ((ball_.GetPosition().x + ball_.GetRadius()
                 >= bottom_right_.x) && ball_.GetVelocity().x > 0);
   }
