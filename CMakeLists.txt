@@ -62,8 +62,8 @@ list(APPEND SOURCE_FILES
         src/core/bubble.cc
         src/core/ball.cc
         src/core/game_level.cc
-        src/core/paddle.cc
-        src/core/collision_manager.cc)
+        src/core/game_level_defaults.cc
+        src/core/paddle.cc)
 
 list(APPEND TEST_FILES   )
 
