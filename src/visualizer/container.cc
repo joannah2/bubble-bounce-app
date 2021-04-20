@@ -51,10 +51,14 @@ namespace bubblebounce {
     UpdateVelocitiesIfWallCollision();
     UpdateVelocitiesIfBubbleCollision();
     
+    if (HasHitPaddle()) {
+      ball_.ReverseYVelocity();
+    }
     ball_.IncreasePositionByVelocity();
 //  for (Bubble& bubble : bubbles_) {
 //    bubble.IncreasePositionByVelocity();
 //  }
+    // if the ball falls through bottom:
   }
 
   void Container::UpdateVelocitiesIfWallCollision() {
@@ -89,14 +93,18 @@ namespace bubblebounce {
 
   bool Container::HasVerticalWallCollision() {
     return ((ball_.GetPosition().x - ball_.GetRadius() <= top_left_.x) && ball_.GetVelocity().x < 0)
-           || ((ball_.GetPosition().x + ball_.GetRadius()
-                >= bottom_right_.x) && ball_.GetVelocity().x > 0);
+           || ((ball_.GetPosition().x + ball_.GetRadius() >= bottom_right_.x) && ball_.GetVelocity().x > 0);
   }
 
   bool Container::HasTopWallCollision() {
-    return ((ball_.GetPosition().y - ball_.GetRadius() <= top_left_.y) && ball_.GetVelocity().y < 0);
+    return (ball_.GetPosition().y - ball_.GetRadius() <= top_left_.y) && ball_.GetVelocity().y < 0;
   }
-
+  
+  bool Container::IsRoundOver() {
+    // if the ball fell through the bottom or NO MORE TURNS
+    return (ball_.GetPosition().y + ball_.GetRadius() >= bottom_right_.y) && ball_.GetVelocity().y > 0;
+  }
+  
   bool Container::HasBubbleCollision(const Bubble& bubble) {
     /*
      * Variable names follow common arithmetic variable convention
@@ -139,5 +147,12 @@ namespace bubblebounce {
     }
     paddle_.SetXPosition(corner_x_values);
   }
-  
+
+  bool Container::HasHitPaddle() {
+    return (ball_.GetVelocity().y > 0) 
+        && (ball_.GetPosition().x >= paddle_.GetTopLeftPosition().x) 
+        && (ball_.GetPosition().x <= paddle_.GetBottomRightPosition().x) 
+        && (ball_.GetPosition().y + ball_.GetRadius() >= paddle_.GetTopLeftPosition().y);
+  }
+
 }  // namespace bubblebounce

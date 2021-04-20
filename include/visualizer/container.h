@@ -50,7 +50,8 @@ namespace bubblebounce {
     
     // determine the left and right corners with the center mouse_position
     void UpdatePaddlePosition(const glm::vec2& mouse_position);
-
+    
+    bool IsRoundOver();
     enum Direction {
       kXDirection,
       kYDirection
@@ -92,6 +93,8 @@ namespace bubblebounce {
     bool HasVerticalWallCollision();
     bool HasTopWallCollision();
     bool HasBubbleCollision(const Bubble& bubble);
+    bool HasHitPaddle();
+   
   };
 
 }  // namespace bubblebounce
