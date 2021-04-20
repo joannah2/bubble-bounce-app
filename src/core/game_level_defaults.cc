@@ -5,7 +5,6 @@ namespace bubblebounce {
   GameLevelDefaults::GameLevelDefaults(const glm::vec2& left_corner, const glm::vec2& right_corner) {
     left_corner_ = left_corner;
     right_corner_ = right_corner;
-    initial_bubble_count = level_number_ * kBubbleMultiplier;
   }
 
   void GameLevelDefaults::GenerateBubblePositions(std::vector<Bubble>& bubbles, const size_t& level) {
@@ -25,20 +24,36 @@ namespace bubblebounce {
     }
   }
 
-  std::vector<Bubble> GameLevelDefaults::GenerateBubblePositionsForLevel(const size_t& level, std::vector<Bubble>& bubbles) {
-    switch (level) {
-      case 1:
-        SetLevel1Bubbles(bubbles);
-        break;
-      case 2:
-        SetLevel2Bubbles(bubbles);
-        break;
+  // return 2d vector of bubbles to be called in bubblebounce app to set in the container
+  std::vector<std::vector<Bubble>> GameLevelDefaults::GetGameLevelBubbles() {
+    std::vector<std::vector<Bubble>> level_bubble_defaults;
+    std::vector<Bubble> bubbles;
+    for (size_t level = 0; level < initial_bubble_counts.size(); ++level) {
+      for (size_t i = 0; i < initial_bubble_counts[level]; ++i) {
+        Bubble bubble(ci::Color("blue"), glm::vec2(0, 0), 40.0f,
+                      Bubble::NormalBubble, Bubble::Strong);
+        bubbles.emplace_back(bubble);
+      }
+      GenerateBubblePositions(bubbles, level);
+      level_bubble_defaults.emplace_back(bubbles);
     }
-    
-    
-    
-    return bubbles_;
+    return level_bubble_defaults;
   }
+  
+//  std::vector<Bubble> GameLevelDefaults::GenerateBubblePositionsForLevel(const size_t& level, std::vector<Bubble>& bubbles) {
+//    // check the given bubbles match the size
+//    
+//    switch (level) {
+//      case 1:
+//        SetLevel1Bubbles(bubbles);
+//        break;
+//      case 2:
+//        SetLevel2Bubbles(bubbles);
+//        break;
+//    }
+//    
+//    return bubbles_;
+//  }
 
   void GameLevelDefaults::SetLevel1Bubbles(std::vector<Bubble>& bubbles) {
     size_t distance = (size_t) bubbles_.at(0).GetRadius() * 2;
@@ -57,20 +72,17 @@ namespace bubblebounce {
     }
     
   }
-
-  size_t GameLevelDefaults::GetLevelDefaultBubbleCount(const size_t& level) const {
-    switch (level) {
-      case 1:
-        return kLevel1BubbleCount;
-      case 2:
-        return kLevel2BubbleCount;
-      default:
-        return 0;
-    }
-  }
-
+  
   void GameLevelDefaults::SetLevel2Bubbles(std::vector<Bubble> &bubbles) {
 
+  }
+  
+  size_t GameLevelDefaults::GetLevelDefaultBubbleCount(const size_t& level) const {
+    return initial_bubble_counts[level];
+  }
+  
+  size_t GameLevelDefaults::GetNumberOfLevels() {
+    return kNumberOfLevels;
   }
 
 }  // namespace bubblebounce
