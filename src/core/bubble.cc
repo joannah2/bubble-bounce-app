@@ -21,12 +21,6 @@ namespace bubblebounce {
     ci::gl::drawSolidCircle(position_, radius_);
   }
 
-  bool Bubble::operator==(const Bubble& compared_Bubble) const {
-    return (color_ == compared_Bubble.GetColor()
-            && position_ == compared_Bubble.GetPosition()
-            && radius_ == compared_Bubble.GetRadius());
-  }
-
   ci::Color Bubble::GetColor() const {
     return color_;
   }
@@ -43,12 +37,16 @@ namespace bubblebounce {
     position_ = position;
   }
 
-  void Bubble::SetBubbleType(Bubble::BubbleType& type) {
-    bubble_type_ = type;
-  }
-
   void Bubble::SetBubbleState(Bubble::BubbleState& state) {
     bubble_state_ = state;
+  }
+
+  Bubble::BubbleType Bubble::GetBubbleType() const {
+    return bubble_type_;
+  }
+
+  Bubble::BubbleState Bubble::GetBubbleState() const {
+    return bubble_state_;
   }
 
 }  // namespace bubblebounce

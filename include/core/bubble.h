@@ -13,18 +13,19 @@ namespace bubblebounce {
 
   public:
 
+    // represents starting type of the bubble
+    // bubble type is unmodifiable
     enum BubbleType {
       NormalBubble,
-      CrackedBubble,
-      SplitBubble,
+      Unpoppable
     };
 
+    // represents bubble's current state which is modified each time it is hit
+    // allows for increased difficulty by requiring multiple hits to pop a bubble
     enum BubbleState {
-      nUnbreakable,   // Steel Chestnut
-      Strong,   // Solid  Chestnut
-      Medium,        // Normal  Chestnut
-      Thin,          // Cracked Chestnut
-      nOpen           // split Chestnut
+      Strong,          
+      Cracked,         
+      Popped
     };
 
     /**
@@ -39,23 +40,29 @@ namespace bubblebounce {
     Bubble(const ci::Color& color, const glm::vec2& position, const float& radius,
            BubbleType type, BubbleState state);
 
+    /**
+     * Draws the bubble in the window.
+     */
     void Draw() const;
-    
-    void SetBubbleType(BubbleType& type);
-
-    void SetBubbleState(BubbleState& state);
-
-    enum BubbleType GetBubbleType() const;
-    enum BubbleState GetBubbleState() const;
 
     /**
-     * Overrides if the bubble being compared to has the same color, position,
-     * velocity, radius, and mass.
-     * @param compared_bubble bubble to compare to
-     * @return true if the bubble has the same attributes
+     * Sets the bubble's state upon a hit from the ball.
+     * @param state BubbleState to be changed to
      */
-    bool operator==(const Bubble& compared_bubble) const;
+    void SetBubbleState(BubbleState& state);
 
+    /**
+     * Gets the type of the bubble
+     * @return BubbleType of what kind of bubble it is
+     */
+    BubbleType GetBubbleType() const;
+    
+    /**
+     * Gets the current state of the bubble.
+     * @return BubbleState representing how strong the bubble is
+     */
+    BubbleState GetBubbleState() const;
+    
     /**
      * Get the color of the bubble.
      * @return ci::Color representing the bubble's color
@@ -67,14 +74,7 @@ namespace bubblebounce {
      * @return vec2 of the bubble's x and y position
      */
     glm::vec2 GetPosition() const;
-
-
-//  /**
-//   * Get the speed of the bubble.
-//   * @return double representing the bubble's speed
-//   */
-//  double GetSpeed() const;
-
+    
     /**
      * Get the radius of the bubble.
      * @return float representing the bubble's radius
@@ -97,9 +97,6 @@ namespace bubblebounce {
 
     BubbleType bubble_type_;
     BubbleState bubble_state_;
-//  
-//    friend class Gamelevel;
-//    friend class Ball;
   };
 
 }  // namespace bubblebounce
