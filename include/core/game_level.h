@@ -5,13 +5,14 @@
 #include <vector>
 
 namespace bubblebounce {
-
+// TODO:: to be implemented for week 2
 /**
  * The class representing each level.
  */
   class GameLevel {
   public:
-    GameLevel(const size_t& level_number, const std::vector<Bubble>& bubbles);
+//    GameLevel(const size_t& level_number, const std::vector<Bubble>& bubbles);
+    GameLevel();
     
     size_t GetLevel() const;
     std::vector<Bubble> GetLevelBubbles() const;
