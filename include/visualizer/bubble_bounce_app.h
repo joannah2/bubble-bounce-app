@@ -9,9 +9,10 @@
 namespace bubblebounce {
 
 /**
- * An app for visualizing the behavior of an ideal gas.
- * Includes a container for pas bubbles and 3 histograms corresponding
- * to the bubbles by color in the container.
+ * A bubble bounce game app where the user controls a paddle with their mouse to
+ * bounce a ball off of with the goal of popping all the bubbles. The paddle can
+ * only move left and right, and the ball must not fall through the bottom of 
+ * the game window (container).
  */
   class BubbleBounceApp : public ci::app::App {
   public:
@@ -26,7 +27,7 @@ namespace bubblebounce {
     void draw() override;
 
     /**
-     * Update the frame with recalculated bubble positions and velocities.
+     * Update the frame with recalculated ball positions, paddle, and bubbles.
      */
     void update() override;
 
@@ -37,6 +38,11 @@ namespace bubblebounce {
      */
     void keyDown(ci::app::KeyEvent event) override;
     
+    /**
+     * Receive mouse events for moving the paddle left and right by the mouse's
+     * x coordinate.
+     * @param event mouse movement by user
+     */
     void mouseMove(ci::app::MouseEvent event) override;
 
   private:
@@ -46,12 +52,6 @@ namespace bubblebounce {
     static constexpr int kLeftMargin = 100;
     static constexpr int kRightMargin = 400;
     const ci::Color kBlackBackgroundColor = "black";
-
-    /* Purple bubble specifications */
-//    const ci::Color kColorPurple = "purple";
-//    static constexpr float kPurplebubbleRadius = 10.0f;
-//    static constexpr double kPurplebubbleMass = 10.0;
-//    static constexpr double kPurpleBaseVelocity = 5.0;
 
     Container container_;
     GameLevelDefaults level_defaults_;
