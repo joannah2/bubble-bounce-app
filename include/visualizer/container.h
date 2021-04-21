@@ -1,6 +1,6 @@
 #pragma once
 
-#include <core/game_level_defaults.h>
+#include <core/level_defaults.h>
 #include "cinder/gl/gl.h"
 #include "core/bubble.h"
 #include "core/ball.h"
@@ -8,15 +8,16 @@
 
 namespace bubblebounce {
 /**
- * The container in which all of the gas particles are contained. This class
- * stores all of the particles and updates them on each frame of the simulation.
+ * The container within where the game interactions occur. This class stores the
+ * ball, paddle, and all bubbles and updates them on each frame of the simulation.
  */
   class Container {
   public:
     /**
-     * Takes the container boundaries to create container.
+     * Takes the container boundaries to create window in the display where the 
+     * game runs.
      * @param top_left vec2 coordinates of the container's top left corner
-     * @param bottom_right_corner_ vec2 coordinates of the container's bottom
+     * @param bottom_right_corner_ vec2 coordinates of the container's bottom 
      * right corner
      * @throws illegal_argument if top left corner coordinates are greater than
      * or equal to bottom right corner coordinates
@@ -24,77 +25,85 @@ namespace bubblebounce {
     Container(const glm::vec2& top_left, const glm::vec2& bottom_right);
 
     /**
-     * Displays the container walls and the current positions of the particles.
+     * Displays the container walls and the current positions of the bubbles.
      */
     void Display() const;
 
     /**
-     * Updates the positions and velocities of all particles.
+     * Updates the positions and velocities of all bubbles.
      */
     void AdvanceOneFrame();
-
-    /**
-     * Adds a bubble to the container.
-     * @param bubble bubble to be added to the container
-     */
-    void AddBubbleToContainer(const Bubble& bubble);
-
-    /**
-     * Removes all bubbles from the container.
-     */
-    void ClearContainer();
-
-    void RemoveBubble();
 
     std::vector<Bubble>& GetContainerBubbles();
     
     // determine the left and right corners with the center mouse_position
     void UpdatePaddlePosition(const glm::vec2& mouse_position);
     
+    /**
+     * Checks if the ball fell through the bottom or if there are no more turns 
+     * left to the game.
+     * @return true if the round is over, false otherwise
+     */
     bool IsRoundOver();
-    enum Direction {
-      kXDirection,
-      kYDirection
-    };
+
+    /**
+     * Sets the current round's vector of bubbles.
+     * @param bubbles bubbles with the level's corresponding positions
+     */
+    void SetGameBubbles(const std::vector<Bubble>& bubbles);
 
   private:
-    /* Container attributes */
+    // container attributes
     const ci::Color kContainerWallColor = "white";
 
-    /* Container coordinates */
+    // container coordinates
     glm::vec2 top_left_;
     glm::vec2 bottom_right_;
-
-    /* Store and manage bubbles and ball*/
-    Ball ball_;
-    std::vector<Bubble> bubbles_;
-
-    // Initial positions
-
-    glm::vec2 ball_position_{450, 750};
-    glm::vec2 ball_velocity_ {0, 0};
     
-    GameLevelDefaults level_defaults_;
+    Ball ball_;
     Paddle paddle_;
     
+    // current bubbles within the display
+    std::vector<Bubble> bubbles_;
+    
     /**
-     * Update particle velocity accordingly if particle collides with the
-     * container wall.
+     * Update ball's velocity accordingly if it collides with the container wall.
      * Horizontal wall collisions reverse y velocity and vertical wall collisions
      * reverse x velocity.
      */
     void UpdateVelocitiesIfWallCollision();
 
     /**
-     * Update both particle's velocities accordingly if 2 particles collide.
+     * Checks for a collision between the ball and the vector of bubbles.
+     * If finds a collisions, reverses the ball's x and y velocities, then 
+     * removes the bubble.
      */
     void UpdateVelocitiesIfBubbleCollision();
     
+    /**
+     * Checks if the ball collides with the left or right walls.
+     * @return true if there was a collision, false otherwise
+     */
     bool HasVerticalWallCollision();
+    
+    /**
+     * Checks if the ball collides with the top wall.
+     * @return true if there was a collision, false otherwise
+     */
     bool HasTopWallCollision();
+    
+    /**
+     * Checks if the ball hits a bubble.
+     * @param bubble the bubble to check for a collision
+     * @return true if there was a collision, false otherwise
+     */
     bool HasBubbleCollision(const Bubble& bubble);
+    
+    /**
+     * Checks if the ball hits the paddle.
+     * @return true if there was a collision, false otherwise
+     */
     bool HasHitPaddle();
-   
   };
 
 }  // namespace bubblebounce
