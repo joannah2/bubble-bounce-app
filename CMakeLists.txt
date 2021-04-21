@@ -62,7 +62,7 @@ list(APPEND SOURCE_FILES
         src/core/bubble.cc
         src/core/ball.cc
         src/core/game_level.cc
-        src/core/game_level_defaults.cc
+        src/core/level_defaults.cc
         src/core/paddle.cc)
 
 list(APPEND TEST_FILES   )

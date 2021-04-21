@@ -1,4 +1,4 @@
-#include "core/game_level_defaults.h"
+#include "core/level_defaults.h"
 
 namespace bubblebounce {
 
@@ -7,6 +7,7 @@ namespace bubblebounce {
     right_corner_ = right_corner;
   }
 
+  // Temporary bubble position generator for a simple level
   void GameLevelDefaults::GenerateBubblePositions(std::vector<Bubble>& bubbles, const size_t& level) {
     size_t distance = (size_t) kBubbleRadius * 2;
     size_t x_1 = (size_t) left_corner_.x + distance;
@@ -40,6 +41,8 @@ namespace bubblebounce {
     return level_bubble_defaults;
   }
   
+  // When there are more levels:
+  // Have each setter for the different levels return the bubbles (not void)
 //  std::vector<Bubble> GameLevelDefaults::GenerateBubblePositionsForLevel(const size_t& level, std::vector<Bubble>& bubbles) {
 //    // check the given bubbles match the size
 //    
