@@ -17,6 +17,7 @@ namespace bubblebounce {
     // bubble type is unmodifiable
     enum BubbleType {
       NormalBubble,
+      SpecialBubble,
       Unpoppable
     };
 
@@ -24,7 +25,8 @@ namespace bubblebounce {
     // allows for increased difficulty by requiring multiple hits to pop a bubble
     enum BubbleState {
       Strong,          
-      Cracked,         
+      Medium,         
+      Weak,
       Popped
     };
 
@@ -50,7 +52,9 @@ namespace bubblebounce {
      * @param state BubbleState to be changed to
      */
     void SetBubbleState(BubbleState& state);
-
+    
+    void LowerBubbleState();
+    
     /**
      * Gets the type of the bubble
      * @return BubbleType of what kind of bubble it is

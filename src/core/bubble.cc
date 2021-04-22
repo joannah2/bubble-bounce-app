@@ -49,4 +49,18 @@ namespace bubblebounce {
     return bubble_state_;
   }
 
+  void Bubble::LowerBubbleState() {
+    switch (bubble_state_) {
+      case Strong:
+        bubble_state_ = Medium;
+        break;
+      case Medium:
+        bubble_state_ = Weak;
+        break;
+      case Weak:
+        bubble_state_ = Popped;
+        break;
+    }
+  }
+
 }  // namespace bubblebounce
