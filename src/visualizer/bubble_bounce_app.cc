@@ -3,46 +3,47 @@
 namespace bubblebounce {
 
   BubbleBounceApp::BubbleBounceApp() :
-    container_(Container(glm::vec2{kLeftMargin, kLeftMargin},
-                glm::vec2 {kWindowWidth - kRightMargin, kWindowHeight - kLeftMargin})), 
-    level_defaults_(glm::vec2{kLeftMargin, kLeftMargin},
-                glm::vec2 {kWindowWidth - kRightMargin, kWindowHeight - kLeftMargin}){
+    game_engine_(GameEngine(glm::vec2{kLeftMargin, kLeftMargin},
+                            glm::vec2 {kWindowWidth - kRightMargin,
+                                       kWindowHeight - kLeftMargin})) {
 
     ci::app::setWindowSize(kWindowWidth, kWindowHeight);
-    is_new_game_ = true;
-    level_bubble_defaults_ = level_defaults_.GetGameLevelBubbles();
-    container_.SetGameBubbles(level_bubble_defaults_[1]);
+    is_paused_ = false;
   }
 
   void BubbleBounceApp::draw() {
     // Draw container with black background
     ci::gl::clear(kBlackBackgroundColor);
-    container_.Display();
-
+    game_engine_.Display();
   }
 
   void BubbleBounceApp::update() {
-    container_.AdvanceOneFrame();
-    // if new game instance or level, set game bubbles
-//    bool is_new_game = true;
-    if (is_new_game_) {
-      container_.SetGameBubbles(level_bubble_defaults_[1]);
-//      container_.SetGameBubbles(level_defaults_, 1);
-      is_new_game_ = false;
-    }
-    
-    // if the game is over -> show game over screen
-//    if (!container_.IsRoundOver()) {
-//    }
+    if (is_paused_) return;
+    game_engine_.AdvanceOneFrame();
   }
 
   void BubbleBounceApp::keyDown(ci::app::KeyEvent event) {
+    switch (event.getCode()) {
+      case ci::app::KeyEvent::KEY_SPACE: // pause/play
+        is_paused_ = !(is_paused_);
+        break;
+      case ci::app::KeyEvent::KEY_r: // reset
+        game_engine_.Reset();
+        break;
+      case ci::app::KeyEvent::KEY_BACKSPACE:
+        // restart
+        break;
+    }
   }
 
   void BubbleBounceApp::mouseMove(ci::app::MouseEvent event) {
-    if ((event.getX() >= kLeftMargin) && (event.getX() <= kWindowWidth - kRightMargin) &&
-    (event.getY() <= kWindowHeight - kLeftMargin) && (event.getY() >= kLeftMargin)) {
-      container_.UpdatePaddlePosition(event.getPos());
+    if (is_paused_) return;
+    
+    if ((event.getX() >= kLeftMargin) 
+        && (event.getX() <= kWindowWidth - kRightMargin)
+        && (event.getY() <= kWindowHeight - kLeftMargin) 
+        && (event.getY() >= kLeftMargin)) {
+      game_engine_.UpdatePaddlePosition(event.getPos());
     }
   }
 

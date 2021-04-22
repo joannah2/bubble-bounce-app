@@ -4,7 +4,7 @@
 #include "cinder/app/App.h"
 #include "cinder/app/RendererGl.h"
 #include "cinder/gl/gl.h"
-#include "container.h"
+#include "game_engine.h"
 
 namespace bubblebounce {
 
@@ -46,20 +46,16 @@ namespace bubblebounce {
     void mouseMove(ci::app::MouseEvent event) override;
 
   private:
-    /* Window screen specifications */
+    // window screen specifications
     static constexpr int kWindowWidth = 1200;
     static constexpr int kWindowHeight = 900;
     static constexpr int kLeftMargin = 100;
     static constexpr int kRightMargin = 400;
     const ci::Color kBlackBackgroundColor = "black";
 
-    Container container_;
-    GameLevelDefaults level_defaults_;
-    GameLevel game_level_;
-    bool is_new_game_;
+    GameEngine game_engine_;
     
-    std::vector<std::vector<Bubble>> level_bubble_defaults_;
-    
+    bool is_paused_;
   };
 
 }  // namespace bubblebounce
