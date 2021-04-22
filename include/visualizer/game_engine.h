@@ -1,6 +1,6 @@
 #pragma once
 
-#include <core/level_defaults.h>
+#include <core/level_generator.h>
 #include "cinder/gl/gl.h"
 #include "core/bubble.h"
 #include "core/ball.h"
@@ -11,7 +11,7 @@ namespace bubblebounce {
  * The container within where the game interactions occur. This class stores the
  * ball, paddle, and all bubbles and updates them on each frame of the simulation.
  */
-  class Container {
+  class GameEngine {
   public:
     /**
      * Takes the container boundaries to create window in the display where the 
@@ -22,7 +22,7 @@ namespace bubblebounce {
      * @throws illegal_argument if top left corner coordinates are greater than
      * or equal to bottom right corner coordinates
      */
-    Container(const glm::vec2& top_left, const glm::vec2& bottom_right);
+    GameEngine(const glm::vec2& top_left, const glm::vec2& bottom_right);
 
     /**
      * Displays the container walls and the current positions of the bubbles.
@@ -33,11 +33,11 @@ namespace bubblebounce {
      * Updates the positions and velocities of all bubbles.
      */
     void AdvanceOneFrame();
-
-    std::vector<Bubble>& GetContainerBubbles();
     
     // determine the left and right corners with the center mouse_position
     void UpdatePaddlePosition(const glm::vec2& mouse_position);
+    
+    void Reset();
     
     /**
      * Checks if the ball fell through the bottom or if there are no more turns 
@@ -53,32 +53,34 @@ namespace bubblebounce {
     void SetGameBubbles(const std::vector<Bubble>& bubbles);
 
   private:
-    // container attributes
+    // game window attributes
     const ci::Color kContainerWallColor = "white";
-
-    // container coordinates
     glm::vec2 top_left_;
     glm::vec2 bottom_right_;
     
     Ball ball_;
     Paddle paddle_;
+    LevelGenerator level_defaults_;
     
     // current bubbles within the display
     std::vector<Bubble> bubbles_;
+    
+    // bubbles for the level 
+    std::vector<std::vector<Bubble>> level_bubble_defaults_;
     
     /**
      * Update ball's velocity accordingly if it collides with the container wall.
      * Horizontal wall collisions reverse y velocity and vertical wall collisions
      * reverse x velocity.
      */
-    void UpdateVelocitiesIfWallCollision();
+    void UpdateIfWallCollision();
 
     /**
      * Checks for a collision between the ball and the vector of bubbles.
      * If finds a collisions, reverses the ball's x and y velocities, then 
      * removes the bubble.
      */
-    void UpdateVelocitiesIfBubbleCollision();
+    void UpdateIfBubbleCollision();
     
     /**
      * Checks if the ball collides with the left or right walls.
