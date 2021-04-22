@@ -76,12 +76,24 @@ namespace bubblebounce {
     return mass_;
   }
 
-  void Ball::SetPosition(glm::vec2& position) {
+  void Ball::SetPosition(const glm::vec2& position) {
     position_ = position;
   }
+//
+//  void Ball::SetVelocity(glm::vec2& velocity) {
+//    velocity_ = velocity;
+//  }
 
-  void Ball::SetVelocity(glm::vec2& velocity) {
+  void Ball::SetColor(const cinder::Color &color) {
+    color_ = color;
+  }
+
+  void Ball::ResetAttributes(const ci::Color& color, const glm::vec2& position,
+                             const glm::vec2& velocity, const float& radius) {
+    color_ = color;
+    position_ = position;
     velocity_ = velocity;
+    radius_ = radius;
   }
 
 }  // namespace bubblebounce

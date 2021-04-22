@@ -3,9 +3,11 @@
 
 namespace bubblebounce {
   
-  Paddle::Paddle(const glm::vec2& top_left, const glm::vec2& bottom_right) {
+  Paddle::Paddle(const glm::vec2& top_left, const glm::vec2& bottom_right,
+                 const ci::Color& color) {
     top_left_ = top_left;
     bottom_right_ = bottom_right;
+    color_ = color;
     length_ = (double) bottom_right.x - top_left.x;
     height_ = (double) bottom_right.y - top_left.y;
   }
@@ -24,12 +26,22 @@ namespace bubblebounce {
   }
 
   void Paddle::Draw() const {
-    ci::gl::color(kPaddleColor);
+    ci::gl::color(color_);
     ci::gl::drawStrokedRect(ci::Rectf(top_left_, bottom_right_));
   }
 
   double Paddle::GetLength() const {
     return length_;
   }
-  
+
+  void Paddle::ResetAttributes(const glm::vec2 &top_left,
+                               const glm::vec2 &bottom_right,
+                               const cinder::Color &color) {
+    top_left_ = top_left;
+    bottom_right_ = bottom_right;
+    color_ = color;
+    length_ = (double) bottom_right.x - top_left.x;
+    height_ = (double) bottom_right.y - top_left.y;
+  }
+
 }  // namespace bubblebounce

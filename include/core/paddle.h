@@ -16,7 +16,8 @@ namespace bubblebounce {
      * @param top_left vec2 coordinates of the paddle's top left corner
      * @param bottom_right vec2 coordinates of the paddle's bottom right corner
      */
-    Paddle(const glm::vec2& top_left, const glm::vec2& bottom_right);
+    Paddle(const glm::vec2& top_left, const glm::vec2& bottom_right,
+           const ci::Color& color);
     
     /**
      * Sets the x coordinates for the top left corner and the bottom right 
@@ -41,15 +42,18 @@ namespace bubblebounce {
     glm::vec2 GetBottomRightPosition() const;
     
     double GetLength() const;
+    
     void Draw() const;
+    
+    void ResetAttributes(const glm::vec2& top_left, const glm::vec2& bottom_right,
+                         const ci::Color& color);
 
   private:
     glm::vec2 top_left_;
     glm::vec2 bottom_right_;
     double length_;
     double height_;
-    static constexpr size_t kHeight = 10;
-    const ci::Color kPaddleColor = "brown";
+    ci::Color color_;
   };
   
 } // namespace bubblebounce

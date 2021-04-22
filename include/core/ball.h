@@ -33,12 +33,17 @@ namespace bubblebounce {
     void IncreasePositionByVelocity();
 
     /**
-     * Update the velocity with a newly calculated velocity after Ball
-     * collision.
-     * @param velocity
+     * Sets the velocity of the ball.
+     * @param velocity vec2 of the ball's velocity
      */
     void SetVelocity(const glm::vec2& velocity);
 
+    /**
+     * Sets the color of the ball.
+     * @param color ci::Color of the ball's color
+     */
+    void SetColor(const ci::Color& color);
+    
     /**
      * Reverse the x velocity when the Ball bounces off a vertical wall.
      */
@@ -97,13 +102,15 @@ namespace bubblebounce {
      * Sets the Ball's position.
      * @param position vec2 of the Ball's x and y coordinates
      */
-    void SetPosition(glm::vec2& position);
+    void SetPosition(const glm::vec2& position);
 
+    void ResetAttributes(const ci::Color& color, const glm::vec2& position,
+                         const glm::vec2& velocity, const float& radius);
     /**
      * Sets the Ball's velocity.
      * @param position vec2 of the Ball's x and y velocities
      */
-    void SetVelocity(glm::vec2& velocity);
+//    void SetVelocity(glm::vec2& velocity);
 
   private:
     float radius_;
