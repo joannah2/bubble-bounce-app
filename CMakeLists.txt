@@ -57,12 +57,12 @@ get_filename_component(APP_PATH "${CMAKE_CURRENT_SOURCE_DIR}/" ABSOLUTE)
 include("${CINDER_PATH}/proj/cmake/modules/cinderMakeApp.cmake")
 
 list(APPEND SOURCE_FILES
-        src/visualizer/container.cc
+        src/visualizer/game_engine.cc
         src/visualizer/bubble_bounce_app.cc
         src/core/bubble.cc
         src/core/ball.cc
         src/core/game_level.cc
-        src/core/level_defaults.cc
+        src/core/level_generator.cc
         src/core/paddle.cc)
 
 list(APPEND TEST_FILES   )
