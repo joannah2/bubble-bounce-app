@@ -9,6 +9,7 @@ namespace bubblebounce {
    * window and is directed by the user's mouse.
    */
   class Paddle {
+    
   public:
     /**
      * Initializes a paddle object with its top left corner and bottom right 

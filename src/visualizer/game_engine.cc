@@ -146,10 +146,6 @@ namespace bubblebounce {
         paddle_.GetTopLeftPosition().y);
   }
 
-  void GameEngine::SetGameBubbles(const std::vector<Bubble>& bubbles) {
-    bubbles_ = bubbles;
-  }
-
   void GameEngine::StartGame(const glm::vec2& target_position) {
     ball_.SetVelocityByTarget(target_position);
   }

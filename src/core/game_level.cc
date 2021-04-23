@@ -14,6 +14,10 @@ namespace bubblebounce {
     bubbles_ = bubbles;
   }
 
+  void GameLevel::SetBubbles(const std::vector<Bubble>& bubbles) {
+    bubbles_ = bubbles;
+  }
+  
   size_t GameLevel::GetLevel() const {
     return level_number_;
   }
@@ -24,9 +28,5 @@ namespace bubblebounce {
 
   std::vector<Bubble> GameLevel::GetLevelBubbles() const {
     return bubbles_;
-  }
-
-  void GameLevel::SetBubbles(const std::vector<Bubble>& bubbles) {
-    bubbles_ = bubbles;
   }
 }  // namespace bubblebounce

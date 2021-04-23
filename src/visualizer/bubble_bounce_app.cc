@@ -32,14 +32,6 @@ namespace bubblebounce {
         game_engine_.Reset();
         is_new_game_ = true;
         break;
-      case ci::app::KeyEvent::KEY_n: // 
-        // launch ball
-//        if (is_new_game_ && !(is_paused_)) {
-//          game_engine_.StartGame();
-//          is_new_game_ = false;
-//        }
-        
-        break;
     }
   }
 

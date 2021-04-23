@@ -24,6 +24,8 @@ namespace bubblebounce {
   }
 
   void Bubble::LowerBubbleState() {
+    if (bubble_type_ == Unpoppable) return;
+    
     switch (bubble_state_) {
       case Strong:
         bubble_state_ = Medium;
@@ -36,6 +38,7 @@ namespace bubblebounce {
         break;
     }
   }
+  
   void Bubble::SetPosition(const glm::vec2& position) {
     position_ = position;
   }

@@ -28,7 +28,11 @@ namespace bubblebounce {
   void Ball::SetVelocityByTarget(const glm::vec2& target_position) {
     float x_velocity = target_position.x - position_.x;
     float y_velocity = target_position.y - position_.y;
+    
+    // create unit vector for velocity using the magnitude
     float magnitude = sqrt((x_velocity * x_velocity) + (y_velocity * y_velocity));
+    
+    // multiply by velocity multiplier to keep speed constant 
     velocity_.x = (x_velocity / magnitude) * kVelocityMultiplier;
     velocity_.y = (y_velocity / magnitude) * kVelocityMultiplier;
   }

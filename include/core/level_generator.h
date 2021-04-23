@@ -10,6 +10,7 @@ namespace bubblebounce {
  * The class representing each level's starting state. 
  */
   class LevelGenerator {
+    
   public:
     /**
      * Initializes all game levels with their respective level number, lives, 
@@ -40,15 +41,16 @@ namespace bubblebounce {
      */
     static size_t GetNumberOfLevels();
     
-    
   private:
     // level "0" considered a level
     static constexpr size_t kNumberOfLevels = 2;
     
-    // vector index is the level to which the value corresponds to
-    // position 0 corresponds to an empty level
-    // (ie simplifies indexing a vector_of_bubbles[level] instead of 
-    // vector_of_bubbles[level - 1])
+    /**
+     * Vector index is the level to which the value corresponds to
+     * position 0 corresponds to an empty level.
+     * (ie simplifies indexing a vector_of_bubbles[level] instead of 
+     * vector_of_bubbles[level - 1])
+     */
     const std::vector<size_t> kInitialBubbleCount{0, 35};
     const std::vector<size_t> kInitialUnpoppableBubbles{0, 4};
     const std::vector<size_t> kInitialSpecialBubbles{0, 5};

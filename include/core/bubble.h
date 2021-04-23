@@ -7,7 +7,7 @@
 namespace bubblebounce {
 
 /**
- * Bubble object representing each bubble used in the simulation.
+ * Bubble object representing each bubble used in the game.
  */
   class Bubble {
 

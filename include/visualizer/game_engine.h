@@ -48,12 +48,6 @@ namespace bubblebounce {
      */
     bool IsRoundOver();
 
-    /**
-     * Sets the current round's vector of bubbles.
-     * @param bubbles bubbles with the level's corresponding positions
-     */
-    void SetGameBubbles(const std::vector<Bubble>& bubbles);
-
   private:
     // game window attributes
     const ci::Color kContainerWallColor = "white";
@@ -67,9 +61,6 @@ namespace bubblebounce {
     
     // current bubbles within the display
     std::vector<Bubble> bubbles_;
-    
-    // bubbles for the level 
-    std::vector<std::vector<Bubble>> level_bubble_defaults_;
     
     /**
      * Update ball's velocity accordingly if it collides with the container wall.
@@ -110,5 +101,4 @@ namespace bubblebounce {
      */
     bool HasHitPaddle();
   };
-
 }  // namespace bubblebounce

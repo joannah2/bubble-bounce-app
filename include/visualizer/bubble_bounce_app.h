@@ -15,6 +15,7 @@ namespace bubblebounce {
  * the game window (container).
  */
   class BubbleBounceApp : public ci::app::App {
+    
   public:
     /**
      * Creates a new bubble bounce app.

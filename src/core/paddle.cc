@@ -24,23 +24,6 @@ namespace bubblebounce {
     bottom_right_.x = corner_x_values.y;
   }
 
-  glm::vec2 Paddle::GetTopLeftPosition() const {
-    return top_left_;
-  }
-
-  glm::vec2 Paddle::GetBottomRightPosition() const {
-    return bottom_right_;
-  }
-
-  void Paddle::Draw() const {
-    ci::gl::color(color_);
-    ci::gl::drawStrokedRect(ci::Rectf(top_left_, bottom_right_));
-  }
-
-  double Paddle::GetLength() const {
-    return length_;
-  }
-
   void Paddle::ResetAttributes(const glm::vec2& top_left,
                                const glm::vec2& bottom_right,
                                const cinder::Color& color) {
@@ -52,6 +35,23 @@ namespace bubblebounce {
     bottom_right_ = bottom_right;
     color_ = color;
     length_ = (double) bottom_right.x - top_left.x;
+  }
+  
+  void Paddle::Draw() const {
+    ci::gl::color(color_);
+    ci::gl::drawStrokedRect(ci::Rectf(top_left_, bottom_right_));
+  }
+  
+  glm::vec2 Paddle::GetTopLeftPosition() const {
+    return top_left_;
+  }
+
+  glm::vec2 Paddle::GetBottomRightPosition() const {
+    return bottom_right_;
+  }
+
+  double Paddle::GetLength() const {
+    return length_;
   }
   
   ci::Color Paddle::GetColor() const {
