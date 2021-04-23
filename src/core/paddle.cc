@@ -5,14 +5,21 @@ namespace bubblebounce {
   
   Paddle::Paddle(const glm::vec2& top_left, const glm::vec2& bottom_right,
                  const ci::Color& color) {
+    if (top_left.x >= bottom_right.x || top_left.y >= bottom_right.y) {
+      throw std::invalid_argument("Top left corner coordinates must be "
+                                  "less than bottom right corner coordinates.");
+    }
     top_left_ = top_left;
     bottom_right_ = bottom_right;
     color_ = color;
     length_ = (double) bottom_right.x - top_left.x;
-    height_ = (double) bottom_right.y - top_left.y;
   }
 
   void Paddle::SetCornerXCoordinates(const glm::vec2& corner_x_values) {
+    if (corner_x_values.x >= corner_x_values.y) {
+      throw std::invalid_argument("Top left corner x coordinate must be "
+                                  "less than bottom right corner coordinates.");
+    }
     top_left_.x = corner_x_values.x;
     bottom_right_.x = corner_x_values.y;
   }
@@ -34,14 +41,20 @@ namespace bubblebounce {
     return length_;
   }
 
-  void Paddle::ResetAttributes(const glm::vec2 &top_left,
-                               const glm::vec2 &bottom_right,
-                               const cinder::Color &color) {
+  void Paddle::ResetAttributes(const glm::vec2& top_left,
+                               const glm::vec2& bottom_right,
+                               const cinder::Color& color) {
+    if (top_left.x >= bottom_right.x || top_left.y >= bottom_right.y) {
+      throw std::invalid_argument("Top left corner coordinates must be "
+                                  "less than bottom right corner coordinates.");
+    }
     top_left_ = top_left;
     bottom_right_ = bottom_right;
     color_ = color;
     length_ = (double) bottom_right.x - top_left.x;
-    height_ = (double) bottom_right.y - top_left.y;
   }
-
+  
+  ci::Color Paddle::GetColor() const {
+    return color_;
+  }
 }  // namespace bubblebounce
