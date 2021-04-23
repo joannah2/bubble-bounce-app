@@ -36,8 +36,7 @@ namespace bubblebounce {
      * @param position vec2 representing the bubble's position
      * @param velocity vec2 representing the bubble's velocity
      * @param radius float representing the bubble's radius
-     * @param mass double representing the bubble's mass
-     * @throws invalid_argument if radius or mass are less than or equal to 0
+     * @throws invalid_argument if radius is less than or equal to 0
      */
     Bubble(const ci::Color& color, const glm::vec2& position, const float& radius,
            BubbleType type, BubbleState state);
@@ -51,8 +50,13 @@ namespace bubblebounce {
      * Sets the bubble's state upon a hit from the ball.
      * @param state BubbleState to be changed to
      */
-    void SetBubbleState(BubbleState& state);
+    void SetBubbleState(BubbleState state);
     
+    /**
+     * Lowers the BubbleState by one level.
+     * (Strong becomes Medium, Medium becomes Weak, Weak becomes Popped,
+     * Popped remains popped)
+     */
     void LowerBubbleState();
     
     /**
@@ -94,13 +98,16 @@ namespace bubblebounce {
 
   private:
     float radius_;
-//  double mass_;
     ci::Color color_;
     glm::vec2 position_;
-//  glm::vec2 velocity_;
-
     BubbleType bubble_type_;
     BubbleState bubble_state_;
+    
+    /**
+     * Checks the state to set the bubble doesn't contradict bubble type
+     * @param state state to set the bubble's state to
+     */
+    void ValidateBubbleState(const BubbleState& state);
   };
 
 }  // namespace bubblebounce

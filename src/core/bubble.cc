@@ -4,18 +4,25 @@
 
 namespace bubblebounce {
 
-  Bubble::Bubble(const ci::Color& color, const glm::vec2& position, const float& radius,
-                 BubbleType type, BubbleState state) {
+  Bubble::Bubble(const ci::Color& color, const glm::vec2& position,
+                 const float& radius, BubbleType type, BubbleState state) {
     if (radius <= 0.0f) {
-      throw std::invalid_argument("Radius and mass must be greater than 0.");
+      throw std::invalid_argument("Radius must be greater than 0.");
     }
     color_ = color;
     position_ = position;
     radius_ = radius;
-    bubble_state_ = state;
     bubble_type_ = type;
+    ValidateBubbleState(state);
+    bubble_state_ = state;
   }
 
+  void Bubble::ValidateBubbleState(const BubbleState& state) {
+    if (state == Popped && bubble_type_ == Unpoppable) {
+      throw std::invalid_argument("Unpoppable bubble cannot be popped");
+    }
+  }
+  
   void Bubble::Draw() const {
     ci::gl::color(color_);
     ci::gl::drawSolidCircle(position_, radius_);
@@ -37,7 +44,8 @@ namespace bubblebounce {
     position_ = position;
   }
 
-  void Bubble::SetBubbleState(Bubble::BubbleState& state) {
+  void Bubble::SetBubbleState(Bubble::BubbleState state) {
+    ValidateBubbleState(state);
     bubble_state_ = state;
   }
 
