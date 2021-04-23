@@ -45,6 +45,13 @@ namespace bubblebounce {
      */
     void mouseMove(ci::app::MouseEvent event) override;
 
+    /**
+     * Receive mouse event for launching the ball when mouse is clicked, only 
+     * if the game is waiting for the user to begin.
+     * @param event mouse event storing click information
+     */
+    void mouseDown(ci::app::MouseEvent event) override;
+ 
   private:
     // window screen specifications
     static constexpr int kWindowWidth = 1200;
@@ -56,6 +63,7 @@ namespace bubblebounce {
     GameEngine game_engine_;
     
     bool is_paused_;
+    bool is_new_game_;
   };
 
 }  // namespace bubblebounce

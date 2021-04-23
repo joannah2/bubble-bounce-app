@@ -9,6 +9,7 @@ namespace bubblebounce {
 
     ci::app::setWindowSize(kWindowWidth, kWindowHeight);
     is_paused_ = false;
+    is_new_game_ = true;
   }
 
   void BubbleBounceApp::draw() {
@@ -24,14 +25,20 @@ namespace bubblebounce {
 
   void BubbleBounceApp::keyDown(ci::app::KeyEvent event) {
     switch (event.getCode()) {
-      case ci::app::KeyEvent::KEY_SPACE: // pause/play
+      case ci::app::KeyEvent::KEY_p: // pause/play
         is_paused_ = !(is_paused_);
         break;
       case ci::app::KeyEvent::KEY_r: // reset
         game_engine_.Reset();
+        is_new_game_ = true;
         break;
-      case ci::app::KeyEvent::KEY_BACKSPACE:
-        // restart
+      case ci::app::KeyEvent::KEY_SPACE:
+        // launch ball
+        if (is_new_game_ && !(is_paused_)) {
+          game_engine_.StartGame();
+          is_new_game_ = false;
+        }
+        
         break;
     }
   }
@@ -45,6 +52,12 @@ namespace bubblebounce {
         && (event.getY() >= kLeftMargin)) {
       game_engine_.UpdatePaddlePosition(event.getPos());
     }
+  }
+
+  void BubbleBounceApp::mouseDown(ci::app::MouseEvent event) {
+    if (is_paused_ || !(is_new_game_)) return;
+    game_engine_.StartGame();
+    is_new_game_ = false;
   }
 
 }  // namespace bubblebounce
