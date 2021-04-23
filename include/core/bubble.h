@@ -12,17 +12,19 @@ namespace bubblebounce {
   class Bubble {
 
   public:
-
-    // represents starting type of the bubble
-    // bubble type is unmodifiable
+    /** 
+     * Represents starting type of the bubble (bubble type is unmodifiable)
+     */
     enum BubbleType {
       NormalBubble,
       SpecialBubble,
       Unpoppable
     };
-
-    // represents bubble's current state which is modified each time it is hit
-    // allows for increased difficulty by requiring multiple hits to pop a bubble
+    
+    /** 
+     * Represents bubble's current state which is modified each time it is hit
+     * allows for increased difficulty by requiring multiple hits to pop a bubble
+     */
     enum BubbleState {
       Strong,          
       Medium,         
@@ -94,8 +96,7 @@ namespace bubblebounce {
      * @param position vec2 of the bubble's x and y coordinates
      */
     void SetPosition(const glm::vec2& position);
-
-
+    
   private:
     float radius_;
     ci::Color color_;

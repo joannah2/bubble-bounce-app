@@ -22,40 +22,6 @@ namespace bubblebounce {
       throw std::invalid_argument("Unpoppable bubble cannot be popped");
     }
   }
-  
-  void Bubble::Draw() const {
-    ci::gl::color(color_);
-    ci::gl::drawSolidCircle(position_, radius_);
-  }
-
-  ci::Color Bubble::GetColor() const {
-    return color_;
-  }
-
-  glm::vec2 Bubble::GetPosition() const {
-    return position_;
-  }
-
-  float Bubble::GetRadius() const {
-    return radius_;
-  }
-
-  void Bubble::SetPosition(const glm::vec2& position) {
-    position_ = position;
-  }
-
-  void Bubble::SetBubbleState(Bubble::BubbleState state) {
-    ValidateBubbleState(state);
-    bubble_state_ = state;
-  }
-
-  Bubble::BubbleType Bubble::GetBubbleType() const {
-    return bubble_type_;
-  }
-
-  Bubble::BubbleState Bubble::GetBubbleState() const {
-    return bubble_state_;
-  }
 
   void Bubble::LowerBubbleState() {
     switch (bubble_state_) {
@@ -70,5 +36,37 @@ namespace bubblebounce {
         break;
     }
   }
+  void Bubble::SetPosition(const glm::vec2& position) {
+    position_ = position;
+  }
 
+  void Bubble::SetBubbleState(Bubble::BubbleState state) {
+    ValidateBubbleState(state);
+    bubble_state_ = state;
+  }
+  
+  void Bubble::Draw() const {
+    ci::gl::color(color_);
+    ci::gl::drawSolidCircle(position_, radius_);
+  }
+  
+  ci::Color Bubble::GetColor() const {
+    return color_;
+  }
+
+  glm::vec2 Bubble::GetPosition() const {
+    return position_;
+  }
+
+  float Bubble::GetRadius() const {
+    return radius_;
+  }
+
+  Bubble::BubbleType Bubble::GetBubbleType() const {
+    return bubble_type_;
+  }
+
+  Bubble::BubbleState Bubble::GetBubbleState() const {
+    return bubble_state_;
+  }
 }  // namespace bubblebounce
