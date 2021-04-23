@@ -37,7 +37,7 @@ namespace bubblebounce {
     // determine the left and right corners with the center mouse_position
     void UpdatePaddlePosition(const glm::vec2& mouse_position);
     
-    void StartGame();
+    void StartGame(const glm::vec2& target_position);
     
     void Reset();
     
@@ -62,7 +62,8 @@ namespace bubblebounce {
     
     Ball ball_;
     Paddle paddle_;
-    LevelGenerator level_defaults_;
+    LevelGenerator level_generator_;
+    GameLevel current_level_;
     
     // current bubbles within the display
     std::vector<Bubble> bubbles_;

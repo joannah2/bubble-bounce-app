@@ -28,16 +28,16 @@ namespace bubblebounce {
       case ci::app::KeyEvent::KEY_p: // pause/play
         is_paused_ = !(is_paused_);
         break;
-      case ci::app::KeyEvent::KEY_r: // reset
+      case ci::app::KeyEvent::KEY_r: // reset this level
         game_engine_.Reset();
         is_new_game_ = true;
         break;
-      case ci::app::KeyEvent::KEY_SPACE:
+      case ci::app::KeyEvent::KEY_n: // 
         // launch ball
-        if (is_new_game_ && !(is_paused_)) {
-          game_engine_.StartGame();
-          is_new_game_ = false;
-        }
+//        if (is_new_game_ && !(is_paused_)) {
+//          game_engine_.StartGame();
+//          is_new_game_ = false;
+//        }
         
         break;
     }
@@ -56,7 +56,7 @@ namespace bubblebounce {
 
   void BubbleBounceApp::mouseDown(ci::app::MouseEvent event) {
     if (is_paused_ || !(is_new_game_)) return;
-    game_engine_.StartGame();
+    game_engine_.StartGame(event.getPos());
     is_new_game_ = false;
   }
 

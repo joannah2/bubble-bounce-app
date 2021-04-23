@@ -13,7 +13,7 @@ namespace bubblebounce {
   GameEngine::GameEngine(const glm::vec2& top_left, const glm::vec2& bottom_right) 
      : ball_(kBallColor, kDefaultBallPosition, kDefaultBallVelocity,
              kDefaultBallRadius),
-       level_defaults_(top_left, bottom_right),
+       level_generator_(top_left, bottom_right),
        paddle_(kPaddleTopLeft, kPaddleBottomRight, kPaddleColor) {
     if (top_left.x >= bottom_right.x  || top_left.y >= bottom_right.y) {
       throw std::invalid_argument("Top left corner coordinates must be "
@@ -21,8 +21,8 @@ namespace bubblebounce {
     }
     top_left_ = top_left;
     bottom_right_ = bottom_right;
-    level_bubble_defaults_ = level_defaults_.GetGameLevelBubbles();
-    SetGameBubbles(level_bubble_defaults_[1]);
+    current_level_ = level_generator_.GetGeneratedGameLevel(1);
+    bubbles_ = current_level_.GetLevelBubbles();
   }
 
   void GameEngine::Display() const {
@@ -67,28 +67,21 @@ namespace bubblebounce {
       if (HasBubbleCollision(bubbles_[i])) {
         glm::vec2 ball_velocity = ball_.GetVelocity();
         
-        switch (bubbles_[i].GetBubbleType()) {
-          case Bubble::Unpoppable:
-//            ball_.SetVelocityByCollision(bubbles_[i].GetPosition());
-//            ball_velocity.x *= -1.0001f;
-//            ball_velocity.y *= -1.0001f;
-            break;
-          case Bubble::NormalBubble:
-          case Bubble::SpecialBubble:
-            bubbles_[i].LowerBubbleState();
-//            ball_velocity.x *= -.9999f;
-//            ball_velocity.y *= -.9999f;
-            break;
+        // adjust new bubble state
+        if (bubbles_[i].GetBubbleType() != Bubble::Unpoppable) {
+          bubbles_[i].LowerBubbleState();
         }
+        
+        // adjust new ball velocity
         ball_.SetVelocityByCollision(bubbles_[i].GetPosition());
+        
+        // handle popping a bubble
         if (bubbles_[i].GetBubbleState() == Bubble::Popped) {
           // if special bubble add extra points
           // else for normal bubbles, add 1 pt 
           ball_.SetColor(bubbles_[i].GetColor());
           bubbles_.erase(bubbles_.begin() + i);
         }
-        
-//        ball_.SetVelocity(ball_velocity);
         break;
       }
     }
@@ -157,8 +150,8 @@ namespace bubblebounce {
     bubbles_ = bubbles;
   }
 
-  void GameEngine::StartGame() {
-    ball_.SetVelocity(level_defaults_.GenerateBallStartingVelocity());
+  void GameEngine::StartGame(const glm::vec2& target_position) {
+    ball_.SetVelocityByTarget(target_position);
   }
   
   void GameEngine::Reset() {
@@ -166,8 +159,6 @@ namespace bubblebounce {
     ball_.ResetAttributes(kBallColor, kDefaultBallPosition, kDefaultBallVelocity,
                           kDefaultBallRadius);
     paddle_.ResetAttributes(kPaddleTopLeft, kPaddleBottomRight, kPaddleColor);
-    level_bubble_defaults_ = level_defaults_.GetGameLevelBubbles();
-    SetGameBubbles(level_bubble_defaults_[1]);
+    bubbles_ = current_level_.GetLevelBubbles();
   }
-
 }  // namespace bubblebounce
