@@ -19,11 +19,10 @@ namespace bubblebounce {
      * @param position vec2 representing the Ball's position
      * @param velocity vec2 representing the Ball's velocity
      * @param radius float representing the Ball's radius
-     * @param mass double representing the Ball's mass
-     * @throws invalid_argument if radius or mass are less than or equal to 0
+     * @throws invalid_argument if radius is less than or equal to 0
      */
     Ball(const ci::Color& color, const glm::vec2& position,
-         const glm::vec2& velocity, const float& radius, const double& mass);
+         const glm::vec2& velocity, const float& radius);
 
     void Draw() const;
     
@@ -93,12 +92,6 @@ namespace bubblebounce {
     float GetRadius() const;
 
     /**
-     * Get the mass of the Ball.
-     * @return double representing the Ball's mass
-     */
-    double GetMass() const;
-
-    /**
      * Sets the Ball's position.
      * @param position vec2 of the Ball's x and y coordinates
      */
@@ -106,6 +99,8 @@ namespace bubblebounce {
 
     void ResetAttributes(const ci::Color& color, const glm::vec2& position,
                          const glm::vec2& velocity, const float& radius);
+    
+    void SetVelocityByCollision(const glm::vec2& bubble_position);
     /**
      * Sets the Ball's velocity.
      * @param position vec2 of the Ball's x and y velocities
@@ -114,12 +109,10 @@ namespace bubblebounce {
 
   private:
     float radius_;
-    double mass_;
     ci::Color color_;
     glm::vec2 position_;
     glm::vec2 velocity_;
 
   };
   
-
 }  // namespace bubblebounce

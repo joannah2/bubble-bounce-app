@@ -5,17 +5,14 @@
 namespace bubblebounce {
 
   Ball::Ball(const cinder::Color& color, const glm::vec2& position,
-             const glm::vec2& velocity, const float& radius, const double& mass) {
-    if (radius <= 0.0f || mass <= 0.0) {
-      throw std::invalid_argument("Radius and mass must be greater than 0.");
+             const glm::vec2& velocity, const float& radius) {
+    if (radius <= 0.0f) {
+      throw std::invalid_argument("Radius must be greater than 0.");
     }
     color_ = color;
     position_ = position;
     velocity_ = velocity;
     radius_ = radius;
-
-    // no need for mass
-    mass_ = mass;
   }
 
   void Ball::Draw() const {
@@ -44,14 +41,6 @@ namespace bubblebounce {
     velocity_.y *= -1;
   }
 
-  bool Ball::operator==(const Ball& compared_Ball) const {
-    return (color_ == compared_Ball.GetColor()
-            && position_ == compared_Ball.GetPosition()
-            && velocity_ == compared_Ball.GetVelocity()
-            && radius_ == compared_Ball.GetRadius()
-            && mass_ == compared_Ball.GetMass());
-  }
-
   ci::Color Ball::GetColor() const {
     return color_;
   }
@@ -63,26 +52,14 @@ namespace bubblebounce {
   glm::vec2 Ball::GetVelocity() const {
     return velocity_;
   }
-
-  double Ball::GetSpeed() const {
-    return glm::length(velocity_);
-  }
-
+  
   float Ball::GetRadius() const {
     return radius_;
-  }
-
-  double Ball::GetMass() const {
-    return mass_;
   }
 
   void Ball::SetPosition(const glm::vec2& position) {
     position_ = position;
   }
-//
-//  void Ball::SetVelocity(glm::vec2& velocity) {
-//    velocity_ = velocity;
-//  }
 
   void Ball::SetColor(const cinder::Color &color) {
     color_ = color;
@@ -90,10 +67,24 @@ namespace bubblebounce {
 
   void Ball::ResetAttributes(const ci::Color& color, const glm::vec2& position,
                              const glm::vec2& velocity, const float& radius) {
+    if (radius <= 0.0f) {
+      throw std::invalid_argument("Radius must be greater than 0.");
+    }
     color_ = color;
     position_ = position;
     velocity_ = velocity;
     radius_ = radius;
+  }
+
+  void Ball::SetVelocityByCollision(const glm::vec2& bubble_position) {
+    if (position_.x < bubble_position.x) {
+      velocity_.x *= -.99f;
+    } else if (position_.x > bubble_position.x) {
+      velocity_.x *= -1.01f;
+    } else {
+      velocity_.x *= -1.0f;
+    }
+    velocity_.y *= -1.0f;
   }
 
 }  // namespace bubblebounce
