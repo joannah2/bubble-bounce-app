@@ -65,7 +65,11 @@ list(APPEND SOURCE_FILES
         src/core/level_generator.cc
         src/core/paddle.cc)
 
-list(APPEND TEST_FILES   )
+list(APPEND TEST_FILES 
+        tests/test_ball.cc
+        tests/test_bubble.cc
+        tests/test_game_engine.cc
+        tests/test_paddle.cc)
 
 ci_make_app(
         APP_NAME        bubble-bounce-app
@@ -82,6 +86,6 @@ ci_make_app(
         LIBRARIES       catch2
 )
 
-#if(MSVC)
-#    set_property(TARGET gas-simulation-test APPEND_STRING PROPERTY LINK_FLAGS " /SUBSYSTEM:CONSOLE")
-#endif()
+if(MSVC)
+    set_property(TARGET bubble-bounce-test APPEND_STRING PROPERTY LINK_FLAGS " /SUBSYSTEM:CONSOLE")
+endif()
