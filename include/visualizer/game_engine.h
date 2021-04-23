@@ -37,6 +37,8 @@ namespace bubblebounce {
     // determine the left and right corners with the center mouse_position
     void UpdatePaddlePosition(const glm::vec2& mouse_position);
     
+    void StartGame();
+    
     void Reset();
     
     /**
