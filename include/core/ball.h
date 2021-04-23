@@ -9,7 +9,7 @@
 namespace bubblebounce {
 
 /**
- * Ball object used to hit bubbles
+ * Ball object used to hit bubbles and bounce off paddle.
  */
   class Ball{
   public:
@@ -24,12 +24,23 @@ namespace bubblebounce {
     Ball(const ci::Color& color, const glm::vec2& position,
          const glm::vec2& velocity, const float& radius);
 
+    /**
+     * Draws the ball to the UI.
+     */
     void Draw() const;
     
     /**
      * Update the position of the Ball by incrementing it by its velocity.
      */
     void IncreasePositionByVelocity();
+    
+    /**
+     * Sets the ball's velocity according to the position determined by the user's
+     * mouse click. Creates a magnitude of the velocity and multiplies by the 
+     * velocity multiplier.
+     * @param target_position vec2 of the position where the user clicks 
+     */
+    void SetVelocityByTarget(const glm::vec2& target_position);
 
     /**
      * Sets the velocity of the ball.
@@ -54,14 +65,6 @@ namespace bubblebounce {
     void ReverseYVelocity();
 
     /**
-     * Overrides if the Ball being compared to has the same color, position,
-     * velocity, radius, and mass.
-     * @param compared_Ball Ball to compare to
-     * @return true if the Ball has the same attributes
-     */
-    bool operator==(const Ball& compared_Ball) const;
-
-    /**
      * Get the color of the Ball.
      * @return ci::Color representing the Ball's color
      */
@@ -80,12 +83,6 @@ namespace bubblebounce {
     glm::vec2 GetVelocity() const;
 
     /**
-     * Get the speed of the Ball.
-     * @return double representing the Ball's speed
-     */
-    double GetSpeed() const;
-
-    /**
      * Get the radius of the Ball.
      * @return float representing the Ball's radius
      */
@@ -97,22 +94,31 @@ namespace bubblebounce {
      */
     void SetPosition(const glm::vec2& position);
 
+    /**
+     * Resets the ball's attributes for reinitializing 
+     * @param color ci::Color of the ball
+     * @param position vec2 of the ball's position
+     * @param velocity vec2 of the ball's velocity
+     * @param radius float of the ball's radius
+     */
     void ResetAttributes(const ci::Color& color, const glm::vec2& position,
                          const glm::vec2& velocity, const float& radius);
     
-    void SetVelocityByCollision(const glm::vec2& bubble_position);
     /**
-     * Sets the Ball's velocity.
-     * @param position vec2 of the Ball's x and y velocities
+     * Sets the ball's velocity according to the bubble's position that it hits
+     * @param bubble_position vec2 of the bubble's position
      */
-//    void SetVelocity(glm::vec2& velocity);
+    void SetVelocityByCollision(const glm::vec2& bubble_position);
 
   private:
+    // multiplier for the calculated unit vector of the ball's new velocity 
+    // after a hit
+    static constexpr size_t kVelocityMultiplier = 9;
+    
     float radius_;
     ci::Color color_;
     glm::vec2 position_;
     glm::vec2 velocity_;
-
   };
   
 }  // namespace bubblebounce
