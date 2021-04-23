@@ -11,14 +11,18 @@ namespace bubblebounce {
  */
   class GameLevel {
   public:
-//    GameLevel(const size_t& level_number, const std::vector<Bubble>& bubbles);
     GameLevel();
+    GameLevel(const size_t& level_number, const size_t & player_lives, 
+              const std::vector<Bubble>& bubbles);
     
     size_t GetLevel() const;
+    size_t GetPlayerLives() const;
+    void SetBubbles(const std::vector<Bubble>& bubbles);
     std::vector<Bubble> GetLevelBubbles() const;
+    
   private:
-    size_t level_number_;
-    size_t player_lives_;
+    size_t level_number_{};
+    size_t player_lives_{};
     std::vector<Bubble> bubbles_;
 
   };
