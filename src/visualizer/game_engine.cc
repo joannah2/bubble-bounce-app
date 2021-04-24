@@ -1,7 +1,7 @@
 #include "visualizer/game_engine.h"
 
 namespace bubblebounce {
-  using glm::vec2;
+//  using glm::vec2;
   const glm::vec2 kPaddleTopLeft{350, 750};
   const glm::vec2 kPaddleBottomRight{550, 800};
   const ci::Color kPaddleColor("white");
@@ -23,6 +23,8 @@ namespace bubblebounce {
     bottom_right_ = bottom_right;
     current_level_ = level_generator_.GetGeneratedGameLevel(1);
     bubbles_ = current_level_.GetLevelBubbles();
+    player_lives_ = current_level_.GetPlayerLives();
+    player_points_ = 0;
   }
 
   void GameEngine::Display() const {
@@ -39,9 +41,14 @@ namespace bubblebounce {
   }
 
   void GameEngine::AdvanceOneFrame() { 
-    if (IsRoundOver()) {
-      // display winning or losing screen
+//    ResetRound();
+    if (player_lives_ == 0) {
+      UpdateForGameOver();
       return;
+    }
+    
+    if (IsRoundOver()) {
+      UpdateForRoundOver();
     }
    
     UpdateIfWallCollision();
@@ -73,7 +80,7 @@ namespace bubblebounce {
         }
         
         // adjust new ball velocity
-        ball_.SetVelocityByCollision(bubbles_[i].GetPosition());
+        ball_.ReverseYVelocity();
         
         // handle popping a bubble
         if (bubbles_[i].GetBubbleState() == Bubble::Popped) {
@@ -100,9 +107,9 @@ namespace bubblebounce {
   }
   
   bool GameEngine::IsRoundOver() {
-    // if the ball fell through the bottom or NO MORE TURNS
-    return (ball_.GetPosition().y + ball_.GetRadius() >= bottom_right_.y)
-            && ball_.GetVelocity().y > 0;
+    // if the ball fell through the bottom
+    return ((ball_.GetPosition().y + ball_.GetRadius() >= bottom_right_.y)
+            && ball_.GetVelocity().y > 0) || player_lives_ == 0;
   }
   
   bool GameEngine::HasBubbleCollision(const Bubble& bubble) {
@@ -150,11 +157,34 @@ namespace bubblebounce {
     ball_.SetVelocityByTarget(target_position);
   }
   
-  void GameEngine::Reset() {
+  void GameEngine::NewGame() {
     // reset ball, paddle, bubbles, points, lives
     ball_.ResetAttributes(kBallColor, kDefaultBallPosition, kDefaultBallVelocity,
                           kDefaultBallRadius);
     paddle_.ResetAttributes(kPaddleTopLeft, kPaddleBottomRight, kPaddleColor);
+    current_level_ = level_generator_.GetGeneratedGameLevel(1);
     bubbles_ = current_level_.GetLevelBubbles();
+    player_lives_ = current_level_.GetPlayerLives();
+    player_points_ = 0;
+  }
+  
+  void GameEngine::ResetRound() {
+    // reset ball, paddle, bubbles
+    ball_.ResetAttributes(kBallColor, kDefaultBallPosition, kDefaultBallVelocity,
+                          kDefaultBallRadius);
+    paddle_.ResetAttributes(kPaddleTopLeft, kPaddleBottomRight, kPaddleColor);
+    bubbles_ = current_level_.GetLevelBubbles();
+  }
+
+  void GameEngine::UpdateForGameOver() {
+    if (player_lives_ == 0) {
+      // display win or lose
+      return;
+    }
+  }
+
+  void GameEngine::UpdateForRoundOver() {
+    --player_lives_;
+    ResetRound();
   }
 }  // namespace bubblebounce

@@ -39,7 +39,11 @@ namespace bubblebounce {
     
     void StartGame(const glm::vec2& target_position);
     
-    void Reset();
+    // Resets the entire game (including points and current level to initial state)
+    void NewGame();
+    
+    // Resets the round (ball, paddle, and bubbles) but maintains game state (points, level, and lives)
+    void ResetRound();
     
     /**
      * Checks if the ball fell through the bottom or if there are no more turns 
@@ -47,6 +51,10 @@ namespace bubblebounce {
      * @return true if the round is over, false otherwise
      */
     bool IsRoundOver();
+    
+    bool IsGameOver();
+    
+    bool IsNewRound();
 
   private:
     // game window attributes
@@ -59,8 +67,15 @@ namespace bubblebounce {
     LevelGenerator level_generator_;
     GameLevel current_level_;
     
+    size_t player_lives_;
+    size_t player_points_;
+    
     // current bubbles within the display
     std::vector<Bubble> bubbles_;
+    
+    void UpdateForGameOver();
+    void UpdateForRoundOver();
+    
     
     /**
      * Update ball's velocity accordingly if it collides with the container wall.
