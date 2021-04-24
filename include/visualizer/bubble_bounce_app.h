@@ -64,7 +64,7 @@ namespace bubblebounce {
     GameEngine game_engine_;
     
     bool is_paused_;
-    bool is_new_game_;
+    bool is_new_round_;
   };
 
 }  // namespace bubblebounce

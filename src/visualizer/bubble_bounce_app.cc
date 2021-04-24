@@ -9,7 +9,7 @@ namespace bubblebounce {
 
     ci::app::setWindowSize(kWindowWidth, kWindowHeight);
     is_paused_ = false;
-    is_new_game_ = true;
+    is_new_round_ = true;
   }
 
   void BubbleBounceApp::draw() {
@@ -21,6 +21,9 @@ namespace bubblebounce {
   void BubbleBounceApp::update() {
     if (is_paused_) return;
     game_engine_.AdvanceOneFrame();
+    if (game_engine_.IsRoundOver()) {
+      is_new_round_ = true;
+    }
   }
 
   void BubbleBounceApp::keyDown(ci::app::KeyEvent event) {
@@ -28,9 +31,9 @@ namespace bubblebounce {
       case ci::app::KeyEvent::KEY_p: // pause/play
         is_paused_ = !(is_paused_);
         break;
-      case ci::app::KeyEvent::KEY_r: // reset this level
-        game_engine_.Reset();
-        is_new_game_ = true;
+      case ci::app::KeyEvent::KEY_r: // fully reset the game
+        game_engine_.NewGame();
+        is_new_round_ = true;
         break;
     }
   }
@@ -47,9 +50,9 @@ namespace bubblebounce {
   }
 
   void BubbleBounceApp::mouseDown(ci::app::MouseEvent event) {
-    if (is_paused_ || !(is_new_game_)) return;
+    if (is_paused_ || !(is_new_round_)) return;
     game_engine_.StartGame(event.getPos());
-    is_new_game_ = false;
+    is_new_round_ = false;
   }
 
 }  // namespace bubblebounce
