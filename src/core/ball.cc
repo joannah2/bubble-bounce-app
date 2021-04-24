@@ -49,13 +49,13 @@ namespace bubblebounce {
   }
 
   void Ball::SetVelocityByCollision(const glm::vec2& bubble_position) {
-    if (position_.x < bubble_position.x) {
-      velocity_.x *= -.99f;
-    } else if (position_.x > bubble_position.x) {
-      velocity_.x *= -1.01f;
-    } else {
-      velocity_.x *= -1.0f;
-    }
+//    if (position_.x < bubble_position.x) {
+//      velocity_.x *= -.99f;
+//    } else if (position_.x > bubble_position.x) {
+//      velocity_.x *= -1.01f;
+//    } else {
+//      velocity_.x *= -1.0f;
+//    }
     velocity_.y *= -1.0f;
   }
   
