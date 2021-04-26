@@ -55,6 +55,8 @@ namespace bubblebounce {
     bool IsGameOver();
     
     bool IsNewRound();
+    
+    GameLevel GetCurrentLevel() const;
 
   private:
     // game window attributes

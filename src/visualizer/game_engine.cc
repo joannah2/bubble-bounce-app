@@ -40,21 +40,30 @@ namespace bubblebounce {
     
     // TODO draw level 
     // draw bubbles, ball, paddle
-    for (const Bubble& bubble : bubbles_) {
-      bubble.Draw();
-    }
+    current_level_.Draw();
+//    for (const Bubble& bubble : bubbles_) {
+//      bubble.Draw();
+//    }
     ball_.Draw();
     paddle_.Draw();
   }
 
   void GameEngine::AdvanceOneFrame() { 
-    if (player_lives_ == 0) {
-      UpdateForGameOver();
+    if (current_level_.IsLevelOver()) {
+      //// update for game over happens in game display
+      // handled in bbapp 
+      // game engine.advance one fram should only be called if the level isn't over
+      // then won't need to return
+      UpdateForGameOver(); 
       return;
     }
+//    if (player_lives_ == 0) {
+//      UpdateForGameOver();
+//      return;
+//    }
     
     if (IsRoundOver()) {
-      UpdateForRoundOver();
+      ResetRound();
     }
    
     UpdateIfWallCollision();
@@ -76,40 +85,40 @@ namespace bubblebounce {
     }
   }
   //TODO REMOVE
-  void GameEngine::UpdateIfBubbleCollision() {
-    for (size_t i = 0; i < bubbles_.size(); ++i) {
-      if (HasBubbleCollision(bubbles_[i])) {
-        glm::vec2 ball_velocity = ball_.GetVelocity();
-        
-        // adjust new bubble state
-        if (bubbles_[i].GetBubbleType() != Bubble::Unpoppable) {
-          bubbles_[i].LowerBubbleState();
-        }
-        
-        // adjust new ball velocity
-        ball_.ReverseYVelocity();
-        
-        // handle popping a bubble
-        if (bubbles_[i].GetBubbleState() == Bubble::Popped) {
-          UpdatePoints(bubbles_[i]);
-          ball_.SetColor(bubbles_[i].GetColor());
-          bubbles_.erase(bubbles_.begin() + i);
-        }
-        break;
-      }
-    }
-  }
-  //TODO REMOVE
-  void GameEngine::UpdatePoints(const Bubble& bubble) {
-    switch (bubble.GetBubbleType()) {
-      case Bubble::NormalBubble:
-        ++player_points_;
-        break;
-      case Bubble::SpecialBubble:
-        player_points_ += 2;
-        break;
-    }
-  }
+//  void GameEngine::UpdateIfBubbleCollision() {
+//    for (size_t i = 0; i < bubbles_.size(); ++i) {
+//      if (HasBubbleCollision(bubbles_[i])) {
+//        glm::vec2 ball_velocity = ball_.GetVelocity();
+//        
+//        // adjust new bubble state
+//        if (bubbles_[i].GetBubbleType() != Bubble::Unpoppable) {
+//          bubbles_[i].LowerBubbleState();
+//        }
+//        
+//        // adjust new ball velocity
+//        ball_.ReverseYVelocity();
+//        
+//        // handle popping a bubble
+//        if (bubbles_[i].GetBubbleState() == Bubble::Popped) {
+//          UpdatePoints(bubbles_[i]);
+//          ball_.SetColor(bubbles_[i].GetColor());
+//          bubbles_.erase(bubbles_.begin() + i);
+//        }
+//        break;
+//      }
+//    }
+//  }
+//  //TODO REMOVE
+//  void GameEngine::UpdatePoints(const Bubble& bubble) {
+//    switch (bubble.GetBubbleType()) {
+//      case Bubble::NormalBubble:
+//        ++player_points_;
+//        break;
+//      case Bubble::SpecialBubble:
+//        player_points_ += 2;
+//        break;
+//    }
+//  }
   
   
   bool GameEngine::HasVerticalWallCollision() {
@@ -127,25 +136,25 @@ namespace bubblebounce {
   bool GameEngine::IsRoundOver() {
     // if the ball fell through the bottom
     return ((ball_.GetPosition().y + ball_.GetRadius() >= bottom_right_.y)
-            && ball_.GetVelocity().y > 0) || player_lives_ == 0;
+            && ball_.GetVelocity().y > 0) || current_level_.IsLevelOver();
   }
   
   //TODO REMOVE
-  bool GameEngine::HasBubbleCollision(const Bubble& bubble) {
-    /*
-     * Variable names follow common arithmetic variable convention
-     * v = velocity, r = radius, x = position
-     */
-    glm::vec2 v_1 = ball_.GetVelocity();
-    glm::vec2 v_2 = glm::vec2{0, 0};
-    double r_1 = ball_.GetRadius();
-    double r_2 = ball_.GetRadius();
-    glm::vec2 x_1 = ball_.GetPosition();
-    glm::vec2 x_2 = bubble.GetPosition();
-
-    return (glm::distance(x_1, x_2) <= r_1 + r_2) && (glm::dot((v_1 - v_2),
-                                                               x_1 - x_2) < 0);
-  }
+//  bool GameEngine::HasBubbleCollision(const Bubble& bubble) {
+//    /*
+//     * Variable names follow common arithmetic variable convention
+//     * v = velocity, r = radius, x = position
+//     */
+//    glm::vec2 v_1 = ball_.GetVelocity();
+//    glm::vec2 v_2 = glm::vec2{0, 0};
+//    double r_1 = ball_.GetRadius();
+//    double r_2 = ball_.GetRadius();
+//    glm::vec2 x_1 = ball_.GetPosition();
+//    glm::vec2 x_2 = bubble.GetPosition();
+//
+//    return (glm::distance(x_1, x_2) <= r_1 + r_2) && (glm::dot((v_1 - v_2),
+//                                                               x_1 - x_2) < 0);
+//  }
 
   void GameEngine::UpdatePaddlePosition(const glm::vec2& mouse_position) {
     double left = mouse_position.x - (paddle_.GetLength() / 2);
@@ -181,29 +190,37 @@ namespace bubblebounce {
     ball_.ResetAttributes(kBallColor, kDefaultBallPosition, kDefaultBallVelocity,
                           kDefaultBallRadius);
     paddle_.ResetAttributes(kPaddleTopLeft, kPaddleBottomRight, kPaddleColor);
+    
     current_level_ = level_generator_.GetGeneratedGameLevel(1);
-    bubbles_ = current_level_.GetLevelBubbles();
-    player_lives_ = current_level_.GetPlayerLives();
-    player_points_ = 0;
+//    bubbles_ = current_level_.GetLevelBubbles();
+//    player_lives_ = current_level_.GetPlayerLives();
+//    player_points_ = 0;
+    
+    
   }
   
   void GameEngine::ResetRound() {
-    // reset ball, paddle, bubbles
+    // reset ball, paddle, level
     ball_.ResetAttributes(kBallColor, kDefaultBallPosition, kDefaultBallVelocity,
                           kDefaultBallRadius);
     paddle_.ResetAttributes(kPaddleTopLeft, kPaddleBottomRight, kPaddleColor);
-    bubbles_ = current_level_.GetLevelBubbles();
+    current_level_.ResetLevelForRound();
+    
   }
 
   void GameEngine::UpdateForGameOver() {
-    if (player_lives_ == 0) {
+
       // display win or lose
       return;
-    }
+    
   }
 
-  void GameEngine::UpdateForRoundOver() {
-    --player_lives_;
-    ResetRound();
+  GameLevel GameEngine::GetCurrentLevel() const {
+    return current_level_;
   }
+
+//  void GameEngine::UpdateForRoundOver() {
+//    --player_lives_;
+//    ResetRound();
+//  }
 }  // namespace bubblebounce
