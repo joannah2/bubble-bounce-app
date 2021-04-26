@@ -25,6 +25,14 @@ namespace bubblebounce {
 //                                 glm::vec2{position_.x + ballRadius_, position_.y + ballRadius_}));
   }
 
+  bool Ball::operator==(const Ball& other_ball) const {
+    return (color_ == other_ball.GetColor()
+            && position_ == other_ball.GetPosition()
+            && velocity_ == other_ball.GetVelocity()
+            && radius_ == other_ball.GetRadius());
+  }
+  
+  
   void Ball::SetVelocityByTarget(const glm::vec2& target_position) {
     float x_velocity = target_position.x - position_.x;
     float y_velocity = target_position.y - position_.y;

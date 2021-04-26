@@ -23,6 +23,14 @@ namespace bubblebounce {
      */
     Ball(const ci::Color& color, const glm::vec2& position,
          const glm::vec2& velocity, const float& radius);
+
+    /**
+     * Overrides if the Ball being compared to has the same color, position,
+     * velocity, radius, and mass.
+     * @param other_ball Ball to compare to
+     * @return true if the Ball has the same attributes
+     */
+    bool operator==(const Ball& other_ball) const;
     
     /**
      * Sets the ball's velocity according to the position determined by the user's
