@@ -52,8 +52,8 @@ namespace bubblebounce {
     void SetBubbles(const std::vector<Bubble>& bubbles);
     
   private:
-    size_t level_number_{};
-    size_t player_lives_{};
+    size_t level_number_;
+    size_t player_lives_;
     std::vector<Bubble> bubbles_;
   };
 

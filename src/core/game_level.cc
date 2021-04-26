@@ -9,6 +9,9 @@ namespace bubblebounce {
 
   GameLevel::GameLevel(const size_t& level_number, const size_t& player_lives,
                        const std::vector<Bubble>& bubbles) {
+    if (player_lives <= 0) {
+      throw std::invalid_argument("Must have more than 0 starting lives");
+    }
     level_number_ = level_number;
     player_lives_ = player_lives;
     bubbles_ = bubbles;
