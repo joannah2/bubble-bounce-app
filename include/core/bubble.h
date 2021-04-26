@@ -49,6 +49,14 @@ namespace bubblebounce {
     void Draw() const;
 
     /**
+     * Overrides if the Ball being compared to has the same color, position,
+     * velocity, radius, and mass.
+     * @param other_bubble Ball to compare to
+     * @return true if the Ball has the same attributes
+     */
+    bool operator==(const Bubble& other_bubble) const;
+    
+    /**
      * Sets the bubble's state upon a hit from the ball.
      * @param state BubbleState to be changed to
      */

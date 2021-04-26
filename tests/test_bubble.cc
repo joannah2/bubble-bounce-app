@@ -86,3 +86,29 @@ TEST_CASE("Test Bubble getting/setting methods") {
     REQUIRE(bubble.GetBubbleState() == bubblebounce::Bubble::Popped);
   }
 }
+
+TEST_CASE("Overloaded == operator for bubbles") {
+  Bubble white_bubble("white", glm::vec2{0,0}, 5.0f,
+                bubblebounce::Bubble::NormalBubble,
+                bubblebounce::Bubble::Strong);
+  Bubble identical_white_bubble("white", glm::vec2{0, 0}, 5.0f,
+                                bubblebounce::Bubble::NormalBubble,
+                                bubblebounce::Bubble::Strong);
+  Bubble red_bubble("red", glm::vec2{10,10}, 15.0f,
+                bubblebounce::Bubble::SpecialBubble,
+                bubblebounce::Bubble::Medium);
+  
+
+  SECTION("Comparing equal balls") {
+    REQUIRE(white_bubble == identical_white_bubble);
+  }
+  
+  SECTION("Comparing unequal balls") {
+    REQUIRE_FALSE(white_bubble == red_bubble);
+  }
+  
+  SECTION("Change to bubble makes it unequal") {
+    white_bubble.LowerBubbleState();
+    REQUIRE_FALSE(white_bubble == identical_white_bubble);
+  }
+}
