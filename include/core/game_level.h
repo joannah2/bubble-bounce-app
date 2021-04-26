@@ -2,6 +2,8 @@
 
 #include "game_level.h"
 #include "bubble.h"
+#include "ball.h"
+
 #include <vector>
 
 namespace bubblebounce {
@@ -26,6 +28,54 @@ namespace bubblebounce {
      */
     GameLevel(const size_t& level_number, const size_t& player_lives, 
               const std::vector<Bubble>& bubbles);
+//    /**
+//     * Update ball's velocity accordingly if it collides with the container wall.
+//     * Horizontal wall collisions reverse y velocity and vertical wall collisions
+//     * reverse x velocity.
+//     */
+//    void UpdateIfWallCollision(Ball& ball);
+
+    /**
+     * Checks for a collision between the ball and the vector of bubbles.
+     * If finds a collisions, reverses the ball's x and y velocities, then 
+     * removes the bubble.
+     */
+    void UpdateIfBubbleCollision(Ball& ball);
+//
+//    /**
+//     * Checks if the ball collides with the left or right walls.
+//     * @return true if there was a collision, false otherwise
+//     */
+//    bool HasVerticalWallCollision(const Ball& ball);
+//
+//    /**
+//     * Checks if the ball collides with the top wall.
+//     * @return true if there was a collision, false otherwise
+//     */
+//    bool HasTopWallCollision(const Ball& ball);
+
+    /**
+     * Checks if the ball hits a bubble.
+     * @param bubble the bubble to check for a collision
+     * @return true if there was a collision, false otherwise
+     */
+    bool HasBubbleCollision(const Bubble& bubble, const Ball& ball);
+
+    void UpdatePoints(const Bubble& bubble);
+
+
+
+
+
+
+    // ------------------------------------------
+    /**
+     * Overrides if the level being compared to has the same number, lives, 
+     * and bubbles.
+     * @param other_level Ball to compare to
+     * @return true if the Ball has the same attributes
+     */
+    bool operator==(const GameLevel& other_level) const;
     
     /**
      * Gets the level number.
@@ -54,6 +104,7 @@ namespace bubblebounce {
   private:
     size_t level_number_;
     size_t player_lives_;
+    size_t player_score_;
     std::vector<Bubble> bubbles_;
   };
 

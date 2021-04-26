@@ -26,12 +26,19 @@ namespace bubblebounce {
     player_lives_ = current_level_.GetPlayerLives();
     player_points_ = 0;
   }
-
+/**
+ * Current change:
+ * - allow game level to handle the bubbles and the player lives
+ * - game engine keeps control of the ball and paddle
+ */
+  
+  
   void GameEngine::Display() const {
-    // draw container
-    ci::gl::color(kContainerWallColor);
+    // draw game window
+    ci::gl::color(kGameEngineWallColor);
     ci::gl::drawStrokedRect(ci::Rectf(top_left_, bottom_right_));
     
+    // TODO draw level 
     // draw bubbles, ball, paddle
     for (const Bubble& bubble : bubbles_) {
       bubble.Draw();
@@ -41,7 +48,6 @@ namespace bubblebounce {
   }
 
   void GameEngine::AdvanceOneFrame() { 
-//    ResetRound();
     if (player_lives_ == 0) {
       UpdateForGameOver();
       return;
@@ -52,7 +58,8 @@ namespace bubblebounce {
     }
    
     UpdateIfWallCollision();
-    UpdateIfBubbleCollision();
+    current_level_.UpdateIfBubbleCollision(ball_);
+//    UpdateIfBubbleCollision();
     
     if (HasHitPaddle()) {
       ball_.ReverseYVelocity();
@@ -68,7 +75,7 @@ namespace bubblebounce {
       ball_.ReverseXVelocity();
     }
   }
-
+  //TODO REMOVE
   void GameEngine::UpdateIfBubbleCollision() {
     for (size_t i = 0; i < bubbles_.size(); ++i) {
       if (HasBubbleCollision(bubbles_[i])) {
@@ -84,8 +91,7 @@ namespace bubblebounce {
         
         // handle popping a bubble
         if (bubbles_[i].GetBubbleState() == Bubble::Popped) {
-          // if special bubble add extra points
-          // else for normal bubbles, add 1 pt 
+          UpdatePoints(bubbles_[i]);
           ball_.SetColor(bubbles_[i].GetColor());
           bubbles_.erase(bubbles_.begin() + i);
         }
@@ -93,7 +99,19 @@ namespace bubblebounce {
       }
     }
   }
-
+  //TODO REMOVE
+  void GameEngine::UpdatePoints(const Bubble& bubble) {
+    switch (bubble.GetBubbleType()) {
+      case Bubble::NormalBubble:
+        ++player_points_;
+        break;
+      case Bubble::SpecialBubble:
+        player_points_ += 2;
+        break;
+    }
+  }
+  
+  
   bool GameEngine::HasVerticalWallCollision() {
     return ((ball_.GetPosition().x - ball_.GetRadius() <= top_left_.x) 
             && ball_.GetVelocity().x < 0)
@@ -112,6 +130,7 @@ namespace bubblebounce {
             && ball_.GetVelocity().y > 0) || player_lives_ == 0;
   }
   
+  //TODO REMOVE
   bool GameEngine::HasBubbleCollision(const Bubble& bubble) {
     /*
      * Variable names follow common arithmetic variable convention

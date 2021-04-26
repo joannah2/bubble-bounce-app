@@ -58,7 +58,7 @@ namespace bubblebounce {
 
   private:
     // game window attributes
-    const ci::Color kContainerWallColor = "white";
+    const ci::Color kGameEngineWallColor = "white";
     glm::vec2 top_left_;
     glm::vec2 bottom_right_;
     
@@ -115,5 +115,7 @@ namespace bubblebounce {
      * @return true if there was a collision, false otherwise
      */
     bool HasHitPaddle();
+    
+    void UpdatePoints(const Bubble& bubble);
   };
 }  // namespace bubblebounce
