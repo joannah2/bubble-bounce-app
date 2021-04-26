@@ -35,9 +35,16 @@ TEST_CASE("Test invalid ball inputs") {
                                            0.0f), std::invalid_argument);
   }
 }
-  TEST_CASE("Test Ball getting/setting methods") {
+  TEST_CASE("Test Ball getting/setting/comparison methods") {
   Ball ball("teal", glm::vec2{0,0}, glm::vec2{1,1},
        10.0f);
+
+  std::vector<Ball> white_balls;
+  for (size_t i = 0; i < 5; ++i) {
+    Ball white_ball("white", glm::vec2{0, 0},
+                    glm::vec2{0,0}, 5.0f);
+    white_balls.emplace_back(white_ball);
+  }
 
   SECTION("Get color") {
     REQUIRE(ball.GetColor() == ci::Color("teal"));
@@ -62,6 +69,31 @@ TEST_CASE("Test invalid ball inputs") {
     REQUIRE(ball.GetPosition() == glm::vec2{10, 10});
     REQUIRE(ball.GetVelocity() == glm::vec2{1, 1});
     REQUIRE(ball.GetRadius() == 5.0f);
+  }
+  
+  SECTION("Comparing equal balls") {
+    std::vector<Ball> identical_white_balls;
+    for (size_t i = 0; i < 5; ++i) {
+      Ball identical_ball("white", glm::vec2{0, 0},
+                          glm::vec2{0,0}, 5.0f);
+      identical_white_balls.emplace_back(identical_ball);
+    }
+    
+    for (size_t i = 0; i < white_balls.size(); ++i) {
+      REQUIRE(white_balls[i] == identical_white_balls[i]);
+    }
+  }
+  SECTION("Comparing unequal balls") {
+    std::vector<Ball> red_balls;
+    for (size_t i = 0; i < 5; ++i) {
+      Ball red_ball("red", glm::vec2{1, 1},
+                    glm::vec2{5, 5}, 15.0f);
+      red_balls.emplace_back(red_ball);
+    }
+    
+    for (size_t i = 0; i < white_balls.size(); ++i) {
+      REQUIRE_FALSE(white_balls[i] == red_balls[i]);
+    }
   }
 }
 
