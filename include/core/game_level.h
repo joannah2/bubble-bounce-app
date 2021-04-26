@@ -63,9 +63,13 @@ namespace bubblebounce {
 
     void UpdatePoints(const Bubble& bubble);
 
-
-
-
+    bool IsLevelWon() const;
+    
+    bool IsLevelOver() const;
+    
+    void ResetLevelForRound();
+    
+    void Draw() const;
 
 
     // ------------------------------------------
@@ -88,6 +92,8 @@ namespace bubblebounce {
      * @return number of lives for the game level
      */
     size_t GetPlayerLives() const;
+
+    size_t GetPlayerScore() const;
     
     /**
     * Gets the bubbles of the level.
@@ -106,6 +112,7 @@ namespace bubblebounce {
     size_t player_lives_;
     size_t player_score_;
     std::vector<Bubble> bubbles_;
+    std::vector<Bubble> initial_level_bubbles_;
   };
 
 }  // namespace bubblebounce

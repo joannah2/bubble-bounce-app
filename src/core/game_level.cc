@@ -14,6 +14,7 @@ namespace bubblebounce {
     player_score_ = 0;
     level_number_ = level_number;
     player_lives_ = player_lives;
+    initial_level_bubbles_ = bubbles;
     bubbles_ = bubbles;
   }
 
@@ -68,6 +69,30 @@ namespace bubblebounce {
                                                                x_1 - x_2) < 0);
   }
 
+  bool GameLevel::IsLevelWon() const {
+    return bubbles_.empty();
+  }
+  
+  bool GameLevel::IsLevelOver() const {
+    return player_lives_ == 0;
+  }
+  
+  void GameLevel::Draw() const {
+    for (const Bubble& bubble : bubbles_) {
+      bubble.Draw();
+    }
+    
+  }
+
+  void GameLevel::ResetLevelForRound() {
+    bubbles_ = initial_level_bubbles_;
+    --player_lives_;
+  }
+  
+  size_t GameLevel::GetPlayerScore() const {
+    return player_score_;
+  }
+  
   //--------------------------------------------------------
   bool GameLevel::operator==(const GameLevel& other_level) const {
     return (level_number_ == other_level.GetLevel()
@@ -90,4 +115,5 @@ namespace bubblebounce {
   std::vector<Bubble> GameLevel::GetLevelBubbles() const {
     return bubbles_;
   }
+
 }  // namespace bubblebounce
