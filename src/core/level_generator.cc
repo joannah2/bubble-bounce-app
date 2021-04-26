@@ -7,8 +7,8 @@ namespace bubblebounce {
                                  const glm::vec2& right_corner) {
     // check initial values match
     if (kNumberOfLevels != kInitialBubbleCount.size() 
-        || kNumberOfLevels != kInitialUnpoppableBubbles.size()
-           || kNumberOfLevels != kInitialSpecialBubbles.size()
+        || kNumberOfLevels != kMaxUnpoppableBubbles.size()
+           || kNumberOfLevels != kMaxSpecialBubbles.size()
               || kNumberOfLevels != kInitialStartingLives.size()) {
       throw std::invalid_argument("Initial values don't match number"
                                   "of levels");
@@ -34,20 +34,24 @@ namespace bubblebounce {
     size_t unpoppable_count = 0;
     size_t special_count = 0;
     
-    int rand;
+    int random_int;
     std::random_device random_device;
     std::mt19937 random_engine(random_device());
-    std::uniform_int_distribution<int> int_distribution(0, 3);
+    std::uniform_int_distribution<int> int_distribution(kMinRandomDistribution, 
+                                                        kMaxRandomDistribution);
 
     for (size_t level = 0; level < kInitialBubbleCount.size(); ++level) {
       for (size_t i = 0; i < kInitialBubbleCount[level]; ++i) {
-        rand = int_distribution(random_engine);
-        if (rand == 0 && unpoppable_count < kInitialUnpoppableBubbles[level]) {
+        random_int = int_distribution(random_engine);
+        
+        if (random_int == kUnpoppableBubbleValue 
+            && unpoppable_count < kMaxUnpoppableBubbles[level]) {
           color = "grey";
           type = Bubble::Unpoppable;
           state = Bubble::Strong;
           ++unpoppable_count;
-        } else if (rand < 1 && special_count < kInitialSpecialBubbles[level]) {
+        } else if (random_int <= kSpecialBubbleValue 
+                    && special_count < kMaxSpecialBubbles[level]) {
           color = "pink";
           type = Bubble::SpecialBubble;
           state = Bubble::Strong;
@@ -57,6 +61,7 @@ namespace bubblebounce {
           type = Bubble::NormalBubble;
           state = Bubble::Strong;
         }
+        
         Bubble bubble(color, glm::vec2(0, 0), kBubbleRadius, type,
                       state);
         bubbles.emplace_back(bubble);
@@ -91,6 +96,14 @@ namespace bubblebounce {
     }
     return levels_[level];
   }
+//
+//  std::vector<Bubble> LevelGenerator::
+//                    GetGeneratedGameLevelBubbles(const size_t& level) const {
+//    if (level >= kNumberOfLevels) {
+//      throw std::invalid_argument("Requested level does not exist");
+//    }
+//    return levels_[level].GetLevelBubbles();
+//  }
   
   size_t LevelGenerator::GetLevelDefaultBubbleCount(const size_t& level) const {
     if (level >= kNumberOfLevels) {
