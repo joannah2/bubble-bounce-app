@@ -63,12 +63,16 @@ list(APPEND SOURCE_FILES
         src/core/ball.cc
         src/core/game_level.cc
         src/core/level_generator.cc
+        src/visualizer/game_display.cc
         src/core/paddle.cc)
 
 list(APPEND TEST_FILES 
         tests/test_ball.cc
         tests/test_bubble.cc
         tests/test_game_engine.cc
+        tests/test_level_generator.cc
+        tests/test_game_level.cc
+        tests/test_game_display.cc
         tests/test_paddle.cc)
 
 ci_make_app(
