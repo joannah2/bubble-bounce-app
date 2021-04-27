@@ -54,18 +54,11 @@ TEST_CASE("Test getters and proper level initialization") {
   GameEngine game(glm::vec2{0, 0}, 
                   glm::vec2{10, 10});
   
-  SECTION("Get the current white_level") {
-    std::vector<Bubble> white_bubbles;
-    for (size_t i = 0; i < 5; ++i) {
-      Bubble bubble("white", glm::vec2{0,0}, 5.0f,
-                    bubblebounce::Bubble::NormalBubble,
-                    bubblebounce::Bubble::Strong);
-      white_bubbles.emplace_back(bubble);
-    }
-
-    GameLevel white_level(1, 5, white_bubbles);
-    
+  SECTION("Get the current level") {
     GameLevel level = game.GetCurrentLevel();
-    REQUIRE(level == white_level);
+    REQUIRE(level.GetLevel() == 1);
+    REQUIRE(level.GetPlayerScore() == 0);
+    REQUIRE(level.GetPlayerLives() == 5);
+    REQUIRE(level.GetLevelBubbles().size() == 35);
   }
 }
