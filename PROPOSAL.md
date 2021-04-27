@@ -45,14 +45,15 @@ user friendly game.
 * Design and implement internal game design:
   - different bubble types and bubble states
   - points system
-  - differentiate bubble colors
+  - player lives
+  - level generator and flexible game level design
 * Test game strategy implementations
    
 ### Week 3:
 * Design and implement visual for game components:
   - Game Winning Screen
   - Game Losing Screen
-  - playing instructions
+  - Game instructions
   - Ball, paddle, bubbles, dashboard, backgrounds, etc
   - Integrate game UI with internal classes
 
