@@ -10,6 +10,7 @@ namespace bubblebounce {
 /**
  * The class representing each level of the game.
  * Has a level, initial lives count, and vector of the bubbles for that level.
+ * Also keeps track of the initial bubbles for the level so it can be reset.
  */
   class GameLevel {
   public:
@@ -28,12 +29,6 @@ namespace bubblebounce {
      */
     GameLevel(const size_t& level_number, const size_t& player_lives, 
               const std::vector<Bubble>& bubbles);
-//    /**
-//     * Update ball's velocity accordingly if it collides with the container wall.
-//     * Horizontal wall collisions reverse y velocity and vertical wall collisions
-//     * reverse x velocity.
-//     */
-//    void UpdateIfWallCollision(Ball& ball);
 
     /**
      * Checks for a collision between the ball and the vector of bubbles.
@@ -41,38 +36,37 @@ namespace bubblebounce {
      * removes the bubble.
      */
     void UpdateIfBubbleCollision(Ball& ball);
-//
-//    /**
-//     * Checks if the ball collides with the left or right walls.
-//     * @return true if there was a collision, false otherwise
-//     */
-//    bool HasVerticalWallCollision(const Ball& ball);
-//
-//    /**
-//     * Checks if the ball collides with the top wall.
-//     * @return true if there was a collision, false otherwise
-//     */
-//    bool HasTopWallCollision(const Ball& ball);
 
     /**
-     * Checks if the ball hits a bubble.
-     * @param bubble the bubble to check for a collision
-     * @return true if there was a collision, false otherwise
+     * Determines if the level was won if the player popped all the bubbles and 
+     * still have lives remaining.
+     * @return true if the player won, false otherwise
      */
-    bool HasBubbleCollision(const Bubble& bubble, const Ball& ball);
-
-    void UpdatePoints(const Bubble& bubble);
-
     bool IsLevelWon() const;
     
+    /**
+     * Determines if the level was lost if the player ran out of lives.
+     * @return true if they lost the level, false otherwise
+     */
+    bool IsLevelLost() const;
+    
+    /**
+     * Returns if the game is still in play.
+     * @return true if the player won or lost, false otherwise
+     */
     bool IsLevelOver() const;
     
+    /**
+     * Resets the bubbles to the starting bubbles for that round and reduces 
+     * the number of player lives.
+     */
     void ResetLevelForRound();
     
+    /**
+     * Draws the bubbles in the current game level to the screen.
+     */
     void Draw() const;
-
-
-    // ------------------------------------------
+    
     /**
      * Overrides if the level being compared to has the same number, lives, 
      * and bubbles.
@@ -88,11 +82,15 @@ namespace bubblebounce {
     size_t GetLevel() const;
     
     /**
-     * Gets the player's starting lives.
-     * @return number of lives for the game level
+     * Gets the player's current number of lives.
+     * @return current number of lives
      */
     size_t GetPlayerLives() const;
 
+    /**
+     * Gets the player's current score.
+     * @return current score
+     */
     size_t GetPlayerScore() const;
     
     /**
@@ -108,11 +106,27 @@ namespace bubblebounce {
     void SetBubbles(const std::vector<Bubble>& bubbles);
     
   private:
+    size_t kNormalBubbleValue = 1;
+    size_t kSpecialBubbleValue = 3;
+    
     size_t level_number_;
     size_t player_lives_;
     size_t player_score_;
     std::vector<Bubble> bubbles_;
     std::vector<Bubble> initial_level_bubbles_;
+
+    /**
+     * Checks if the ball hits a bubble.
+     * @param bubble the bubble to check for a collision
+     * @return true if there was a collision, false otherwise
+     */
+    bool HasBubbleCollision(const Bubble& bubble, const Ball& ball);
+
+    /**
+     * Updates the player's score based on the bubble type.
+     * @param bubble bubble that is to be popped
+     */
+    void UpdatePoints(const Bubble& bubble);
   };
 
 }  // namespace bubblebounce
