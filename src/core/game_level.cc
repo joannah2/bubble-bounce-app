@@ -45,10 +45,10 @@ namespace bubblebounce {
   void GameLevel::UpdatePoints(const Bubble& bubble) {
     switch (bubble.GetBubbleType()) {
       case Bubble::NormalBubble:
-        ++player_score_;
+        player_score_ += kNormalBubbleValue;
         break;
       case Bubble::SpecialBubble:
-        player_score_ += 2;
+        player_score_ += kSpecialBubbleValue;
         break;
     }
   }
@@ -70,18 +70,21 @@ namespace bubblebounce {
   }
 
   bool GameLevel::IsLevelWon() const {
-    return bubbles_.empty();
+    return bubbles_.empty() && player_lives_ > 0;
   }
   
-  bool GameLevel::IsLevelOver() const {
+  bool GameLevel::IsLevelLost() const {
     return player_lives_ == 0;
+  }
+
+  bool GameLevel::IsLevelOver() const {
+    return IsLevelWon() || IsLevelLost();
   }
   
   void GameLevel::Draw() const {
     for (const Bubble& bubble : bubbles_) {
       bubble.Draw();
     }
-    
   }
 
   void GameLevel::ResetLevelForRound() {
@@ -93,7 +96,6 @@ namespace bubblebounce {
     return player_score_;
   }
   
-  //--------------------------------------------------------
   bool GameLevel::operator==(const GameLevel& other_level) const {
     return (level_number_ == other_level.GetLevel()
             && player_lives_ == other_level.GetPlayerLives()
@@ -115,5 +117,5 @@ namespace bubblebounce {
   std::vector<Bubble> GameLevel::GetLevelBubbles() const {
     return bubbles_;
   }
-
+  
 }  // namespace bubblebounce
