@@ -127,6 +127,12 @@ namespace bubblebounce {
      * @param bubble bubble that is to be popped
      */
     void UpdatePoints(const Bubble& bubble);
+    
+    /**
+     * Checks if all poppable bubbles are popped.
+     * @return true if the poppable bubbles are popped, false otherwise
+     */
+    bool AreAllPoppableBubblesPopped() const;
   };
 
 }  // namespace bubblebounce

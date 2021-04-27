@@ -70,7 +70,18 @@ namespace bubblebounce {
   }
 
   bool GameLevel::IsLevelWon() const {
-    return bubbles_.empty() && player_lives_ > 0;
+    return AreAllPoppableBubblesPopped() && player_lives_ > 0;
+  }
+  
+  bool GameLevel::AreAllPoppableBubblesPopped() const {
+    for (const Bubble& bubble: bubbles_) {
+      if (bubble.GetBubbleType() != Bubble::Unpoppable) {
+        if (bubble.GetBubbleState() != Bubble::Popped) {
+          return false;
+        }
+      }
+    }
+    return true;
   }
   
   bool GameLevel::IsLevelLost() const {
