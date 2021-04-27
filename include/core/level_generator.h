@@ -7,7 +7,7 @@
 namespace bubblebounce {
 
 /**
- * The class representing each level's starting state. 
+ * The class generating each level's starting state. 
  */
   class LevelGenerator {
     
@@ -54,19 +54,19 @@ namespace bubblebounce {
     const std::vector<size_t> kInitialBubbleCount{0, 35};
     const std::vector<size_t> kMaxUnpoppableBubbles{0, 4};
     const std::vector<size_t> kMaxSpecialBubbles{0, 7};
-    const std::vector<size_t> kInitialStartingLives{0, 5};
+    const std::vector<size_t> kInitialStartingLives{0, 1};
+
+    // constants for creating random generation of types of bubbles
+    static constexpr size_t kMinRandomDistribution = 0;
+    static constexpr size_t kMaxRandomDistribution = 3;
+    static constexpr size_t kUnpoppableBubbleValue = 0;
+    static constexpr size_t kSpecialBubbleValue = 1;
     
     static constexpr float kBubbleRadius = 40.0f;
     
     glm::vec2 left_corner_;
     glm::vec2 right_corner_;
     std::vector<GameLevel> levels_;
-    
-    // constants for creating random generation of types of bubbles
-    static constexpr size_t kMinRandomDistribution = 0;
-    static constexpr size_t kMaxRandomDistribution = 3;
-    static constexpr size_t kUnpoppableBubbleValue = 0;
-    static constexpr size_t kSpecialBubbleValue = 1;
     
     /**
      * Initializes game levels with respective randomized bubbles.

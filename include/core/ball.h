@@ -26,7 +26,7 @@ namespace bubblebounce {
 
     /**
      * Overrides if the Ball being compared to has the same color, position,
-     * velocity, radius, and mass.
+     * velocity, radius.
      * @param other_ball Ball to compare to
      * @return true if the Ball has the same attributes
      */
