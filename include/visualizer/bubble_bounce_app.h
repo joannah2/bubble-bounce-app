@@ -5,6 +5,7 @@
 #include "cinder/app/RendererGl.h"
 #include "cinder/gl/gl.h"
 #include "game_engine.h"
+#include "game_display.h"
 
 namespace bubblebounce {
 
@@ -57,14 +58,18 @@ namespace bubblebounce {
     // window screen specifications
     static constexpr int kWindowWidth = 1200;
     static constexpr int kWindowHeight = 900;
-    static constexpr int kLeftMargin = 100;
-    static constexpr int kRightMargin = 400;
-    const ci::Color kBlackBackgroundColor = "black";
+    
+    const glm::vec2 kGameWindowTopLeft{100, 100};
+    const glm::vec2 kGameWindowBottomRight{750, 800};
+    const glm::vec2 kPanelTopLeft{800, 100};
+    const glm::vec2 kPanelBottomRight{1100, 850};
 
     GameEngine game_engine_;
+    GameDisplay game_display_;
     
     bool is_paused_;
     bool is_new_round_;
+    bool is_game_over_;
   };
 
 }  // namespace bubblebounce

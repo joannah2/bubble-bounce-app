@@ -3,27 +3,34 @@
 namespace bubblebounce {
 
   BubbleBounceApp::BubbleBounceApp() :
-    game_engine_(GameEngine(glm::vec2{kLeftMargin, kLeftMargin},
-                            glm::vec2 {kWindowWidth - kRightMargin,
-                                       kWindowHeight - kLeftMargin})) {
-
+    game_engine_(kGameWindowTopLeft, kGameWindowBottomRight),
+    game_display_(kPanelTopLeft, kPanelBottomRight) {
     ci::app::setWindowSize(kWindowWidth, kWindowHeight);
     is_paused_ = false;
     is_new_round_ = true;
+    is_game_over_ = false;
   }
 
   void BubbleBounceApp::draw() {
-    // Draw container with black background
-    ci::gl::clear(kBlackBackgroundColor);
+    game_display_.Display();
     game_engine_.Display();
   }
 
   void BubbleBounceApp::update() {
     if (is_paused_) return;
-    game_engine_.AdvanceOneFrame();
-    if (game_engine_.IsRoundOver()) {
+    
+    game_display_.UpdateDisplay(game_engine_.GetCurrentLevel());
+    
+    if (game_engine_.GetCurrentLevel().IsLevelOver()) {
+      is_game_over_ = true;
+      return;
+    }
+    
+    if (game_engine_.IsBallOut()) {
       is_new_round_ = true;
     }
+    
+    game_engine_.AdvanceOneFrame();
   }
 
   void BubbleBounceApp::keyDown(ci::app::KeyEvent event) {
@@ -39,18 +46,18 @@ namespace bubblebounce {
   }
 
   void BubbleBounceApp::mouseMove(ci::app::MouseEvent event) {
-    if (is_paused_) return;
+    if (is_paused_ || is_game_over_) return;
     
-    if ((event.getX() >= kLeftMargin) 
-        && (event.getX() <= kWindowWidth - kRightMargin)
-        && (event.getY() <= kWindowHeight - kLeftMargin) 
-        && (event.getY() >= kLeftMargin)) {
+    if (((float) event.getX() >= kGameWindowTopLeft.x) 
+        && ((float) event.getX() <= kGameWindowBottomRight.x)
+        && ((float) event.getY() <= kGameWindowBottomRight.y) 
+        && ((float) event.getY() >= kGameWindowTopLeft.y)) {
       game_engine_.UpdatePaddlePosition(event.getPos());
     }
   }
 
   void BubbleBounceApp::mouseDown(ci::app::MouseEvent event) {
-    if (is_paused_ || !(is_new_round_)) return;
+    if (is_paused_ || !(is_new_round_) || is_game_over_) return;
     game_engine_.StartGame(event.getPos());
     is_new_round_ = false;
   }
