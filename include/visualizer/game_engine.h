@@ -9,7 +9,8 @@
 namespace bubblebounce {
 /**
  * The container within where the game interactions occur. This class stores the
- * ball, paddle, and all bubbles and updates them on each frame of the simulation.
+ * ball, paddle, and the game level which contains the bubbles. It updates them
+ * correspondingly on each frame of the simulation.
  */
   class GameEngine {
   public:
@@ -34,28 +35,40 @@ namespace bubblebounce {
      */
     void AdvanceOneFrame();
     
-    // determine the left and right corners with the center mouse_position
+    /**
+     * Determines the left and right corners for the paddle with the center 
+     * of the mouse's location.
+     * @param mouse_position vec2 of the mouse position
+     */
     void UpdatePaddlePosition(const glm::vec2& mouse_position);
     
+    /**
+     * Sets the ball's velocity to the given target position.
+     * @param target_position vec2 of the position of the mouse on the click
+     */
     void StartGame(const glm::vec2& target_position);
     
-    // Resets the entire game (including points and current level to initial state)
+    /**
+     * Resets the entire game; resets ball, paddle, bubbles, points, and lives.
+     */
     void NewGame();
     
-    // Resets the round (ball, paddle, and bubbles) but maintains game state (points, level, and lives)
+    /**
+     * Resets the round (ball, paddle, and bubbles) but maintains game state 
+     * (points, level, and lives)
+     */
     void ResetRound();
     
     /**
-     * Checks if the ball fell through the bottom or if there are no more turns 
-     * left to the game.
-     * @return true if the round is over, false otherwise
+     * Checks if the ball fell through the bottom
+     * @return true if the ball is out, false otherwise
      */
-    bool IsRoundOver();
+    bool IsBallOut();
     
-    bool IsGameOver();
-    
-    bool IsNewRound();
-    
+    /**
+     * Retrieves the current level instance.
+     * @return GameLevel of the current level
+     */
     GameLevel GetCurrentLevel() const;
 
   private:
@@ -67,17 +80,7 @@ namespace bubblebounce {
     Ball ball_;
     Paddle paddle_;
     LevelGenerator level_generator_;
-    GameLevel current_level_;
-    
-    size_t player_lives_;
-    size_t player_points_;
-    
-    // current bubbles within the display
-    std::vector<Bubble> bubbles_;
-    
-    void UpdateForGameOver();
-    void UpdateForRoundOver();
-    
+    GameLevel current_level_;   
     
     /**
      * Update ball's velocity accordingly if it collides with the container wall.
@@ -85,13 +88,6 @@ namespace bubblebounce {
      * reverse x velocity.
      */
     void UpdateIfWallCollision();
-
-    /**
-     * Checks for a collision between the ball and the vector of bubbles.
-     * If finds a collisions, reverses the ball's x and y velocities, then 
-     * removes the bubble.
-     */
-    void UpdateIfBubbleCollision();
     
     /**
      * Checks if the ball collides with the left or right walls.
@@ -106,18 +102,10 @@ namespace bubblebounce {
     bool HasTopWallCollision();
     
     /**
-     * Checks if the ball hits a bubble.
-     * @param bubble the bubble to check for a collision
-     * @return true if there was a collision, false otherwise
-     */
-    bool HasBubbleCollision(const Bubble& bubble);
-    
-    /**
      * Checks if the ball hits the paddle.
      * @return true if there was a collision, false otherwise
      */
     bool HasHitPaddle();
-    
-    void UpdatePoints(const Bubble& bubble);
   };
+  
 }  // namespace bubblebounce
