@@ -54,7 +54,7 @@ namespace bubblebounce {
     const std::vector<size_t> kInitialBubbleCount{0, 35};
     const std::vector<size_t> kMaxUnpoppableBubbles{0, 4};
     const std::vector<size_t> kMaxSpecialBubbles{0, 7};
-    const std::vector<size_t> kInitialStartingLives{0, 1};
+    const std::vector<size_t> kInitialStartingLives{0, 5};
 
     // constants for creating random generation of types of bubbles
     static constexpr size_t kMinRandomDistribution = 0;

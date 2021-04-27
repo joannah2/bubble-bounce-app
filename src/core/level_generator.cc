@@ -96,14 +96,6 @@ namespace bubblebounce {
     }
     return levels_[level];
   }
-//
-//  std::vector<Bubble> LevelGenerator::
-//                    GetGeneratedGameLevelBubbles(const size_t& level) const {
-//    if (level >= kNumberOfLevels) {
-//      throw std::invalid_argument("Requested level does not exist");
-//    }
-//    return levels_[level].GetLevelBubbles();
-//  }
   
   size_t LevelGenerator::GetLevelDefaultBubbleCount(const size_t& level) const {
     if (level >= kNumberOfLevels) {
@@ -115,4 +107,5 @@ namespace bubblebounce {
   size_t LevelGenerator::GetNumberOfLevels() {
     return kNumberOfLevels;
   }
+  
 }  // namespace bubblebounce
