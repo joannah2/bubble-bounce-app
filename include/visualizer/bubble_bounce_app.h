@@ -55,14 +55,12 @@ namespace bubblebounce {
     void mouseDown(ci::app::MouseEvent event) override;
  
   private:
-    // window screen specifications
     static constexpr int kWindowWidth = 1200;
     static constexpr int kWindowHeight = 900;
     
     const glm::vec2 kGameWindowTopLeft{100, 100};
     const glm::vec2 kGameWindowBottomRight{750, 800};
-    const glm::vec2 kPanelTopLeft{800, 100};
-    const glm::vec2 kPanelBottomRight{1100, 850};
+    const glm::vec2 kPanelBottomRight{1100, 800};
 
     GameEngine game_engine_;
     GameDisplay game_display_;

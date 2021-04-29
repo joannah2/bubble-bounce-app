@@ -4,16 +4,26 @@ namespace bubblebounce {
 
   BubbleBounceApp::BubbleBounceApp() :
     game_engine_(kGameWindowTopLeft, kGameWindowBottomRight),
-    game_display_(kPanelTopLeft, kPanelBottomRight) {
+    game_display_(glm::vec2{kWindowWidth, kWindowHeight},
+                  kGameWindowTopLeft, kPanelBottomRight) {
     ci::app::setWindowSize(kWindowWidth, kWindowHeight);
-    is_paused_ = false;
+    is_paused_ = true;
     is_new_round_ = true;
     is_game_over_ = false;
+    game_display_.DisplayGameInstructions();
   }
 
   void BubbleBounceApp::draw() {
+    if (is_paused_) {
+      game_display_.DisplayGameInstructions();
+      return;
+    }
+    
     game_display_.Display();
-    game_engine_.Display();
+    
+    if (!is_game_over_) {
+      game_engine_.Display();
+    }
   }
 
   void BubbleBounceApp::update() {
@@ -38,7 +48,7 @@ namespace bubblebounce {
       case ci::app::KeyEvent::KEY_p: // pause/play
         is_paused_ = !(is_paused_);
         break;
-      case ci::app::KeyEvent::KEY_r: // fully reset the game
+      case ci::app::KeyEvent::KEY_r: // reset the game
         game_engine_.NewGame();
         is_new_round_ = true;
         break;
