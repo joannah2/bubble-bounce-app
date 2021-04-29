@@ -45,7 +45,22 @@ TEST_CASE("Test invalid ball inputs") {
                     glm::vec2{0,0}, 5.0f);
     white_balls.emplace_back(white_ball);
   }
+  
+  SECTION("Set position") {
+    ball.SetPosition(glm::vec2{0, 10});
+    REQUIRE(ball.GetPosition() == glm::vec2{0, 10});
+  }
 
+  SECTION("Set color") {
+    ball.SetColor(ci::Color("red"));
+    REQUIRE(ball.GetPosition() == glm::vec2{0, 10});
+  }
+
+  SECTION("Set velocity") {
+    ball.SetVelocity(glm::vec2{0, 10});
+    REQUIRE(ball.GetVelocity() == glm::vec2{0, 10});
+  }
+  
   SECTION("Get color") {
     REQUIRE(ball.GetColor() == ci::Color("teal"));
   }
