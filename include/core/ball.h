@@ -68,24 +68,24 @@ namespace bubblebounce {
     void SetColor(const ci::Color& color);
     
     /**
-     * Reverse the x velocity when the Ball bounces off a vertical wall.
+     * Reverse the x velocity when the ball bounces off a vertical wall.
      */
     void ReverseXVelocity();
 
     /**
-     * Reverse the y velocity when the Ball bounces off a horizontal wall.
+     * Reverse the y velocity when the ball bounces off a horizontal wall.
      */
     void ReverseYVelocity();
 
     /**
      * Get the color of the Ball.
-     * @return ci::Color representing the Ball's color
+     * @return ci::Color representing the ball's color
      */
     ci::Color GetColor() const;
 
     /**
-     * Get the 2D vector of the Ball's x and y position.
-     * @return vec2 of the Ball's x and y position
+     * Get the 2D vector of the ball's x and y position.
+     * @return vec2 of the ball's x and y position
      */
     glm::vec2 GetPosition() const;
 
@@ -102,8 +102,8 @@ namespace bubblebounce {
     float GetRadius() const;
 
     /**
-     * Sets the Ball's position.
-     * @param position vec2 of the Ball's x and y coordinates
+     * Sets the ball's position.
+     * @param position vec2 of the ball's x and y coordinates
      */
     void SetPosition(const glm::vec2& position);
 
