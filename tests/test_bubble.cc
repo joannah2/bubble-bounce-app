@@ -7,7 +7,7 @@ using bubblebounce::Bubble;
 /**
  * Testing Strategy for Bubble class
  * - invalid inputs
- * - setting/getting methods
+ * - setting/getting methods and handling different colors
  */
 
 TEST_CASE("Test invalid bubble inputs") {
@@ -84,6 +84,34 @@ TEST_CASE("Test Bubble getting/setting methods") {
     bubble.SetBubbleState(bubblebounce::Bubble::Popped);
     bubble.LowerBubbleState();
     REQUIRE(bubble.GetBubbleState() == bubblebounce::Bubble::Popped);
+  }
+
+  SECTION("All bubble types have default color from initialization") {
+    REQUIRE(bubble.GetColor() == "teal");
+    REQUIRE(bubble.GetNormalMediumColor() == ci::Color("teal"));
+    REQUIRE(bubble.GetNormalWeakColor() == ci::Color("teal"));
+    REQUIRE(bubble.GetSpecialMediumColor() == ci::Color("teal"));
+    REQUIRE(bubble.GetSpecialWeakColor() == ci::Color("teal"));
+  }
+  
+  SECTION("Setting/getting the color for normal medium bubbles") {
+    bubble.SetNormalMediumBubbleColor("white");
+    REQUIRE(bubble.GetNormalMediumColor() == ci::Color("white"));
+  }
+  
+  SECTION("Setting/getting the color for normal weak bubbles") {
+    bubble.SetNormalWeakBubbleColor("blue");
+    REQUIRE(bubble.GetNormalWeakColor() == ci::Color("blue"));
+  }
+  
+  SECTION("Setting/getting the color for special medium bubbles") {
+    bubble.SetSpecialMediumBubbleColor("green");
+    REQUIRE(bubble.GetSpecialMediumColor() == ci::Color("green"));
+  }
+  
+  SECTION("Setting/getting the color for special weak bubbles") {
+    bubble.SetSpecialWeakBubbleColor("pink");
+    REQUIRE(bubble.GetSpecialWeakColor() == ci::Color("pink"));
   }
 }
 
