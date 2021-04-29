@@ -34,7 +34,6 @@ namespace bubblebounce {
         // handle popping a bubble
         if (bubbles_[i].GetBubbleState() == Bubble::Popped) {
           UpdatePoints(bubbles_[i]);
-          ball.SetColor(bubbles_[i].GetColor());
           bubbles_.erase(bubbles_.begin() + i);
         }
         break;
@@ -101,6 +100,7 @@ namespace bubblebounce {
   void GameLevel::ResetLevelForRound() {
     bubbles_ = initial_level_bubbles_;
     --player_lives_;
+    player_score_ = 0;
   }
   
   size_t GameLevel::GetPlayerScore() const {
