@@ -15,6 +15,12 @@ namespace bubblebounce {
     bubble_type_ = type;
     ValidateBubbleState(state);
     bubble_state_ = state;
+    
+    // default all bubble state colors to strong bubble
+    normal_medium_color_ = color;
+    normal_weak_color_ = color;
+    special_medium_color_ = color;
+    special_weak_color_ = color;
   }
 
   void Bubble::ValidateBubbleState(const BubbleState& state) {
@@ -29,9 +35,13 @@ namespace bubblebounce {
     switch (bubble_state_) {
       case Strong:
         bubble_state_ = Medium;
+        color_ = (bubble_type_ == NormalBubble) ? normal_medium_color_ :
+          special_medium_color_;
         break;
       case Medium:
         bubble_state_ = Weak;
+        color_ = (bubble_type_ == NormalBubble) ? normal_weak_color_ :
+                 special_weak_color_;
         break;
       case Weak:
         bubble_state_ = Popped;
@@ -80,4 +90,37 @@ namespace bubblebounce {
   Bubble::BubbleState Bubble::GetBubbleState() const {
     return bubble_state_;
   }
+
+  void Bubble::SetNormalMediumBubbleColor(const ci::Color& color) {
+    normal_medium_color_ = color;
+  }
+
+  void Bubble::SetNormalWeakBubbleColor(const ci::Color& color) {
+    normal_weak_color_ = color;
+  }
+
+  void Bubble::SetSpecialMediumBubbleColor(const ci::Color& color) {
+    special_medium_color_ = color;
+  }
+
+  void Bubble::SetSpecialWeakBubbleColor(const ci::Color& color) {
+    special_weak_color_ = color;
+  }
+
+  ci::Color Bubble::GetNormalMediumColor() const {
+    return normal_medium_color_;
+  }
+
+  ci::Color Bubble::GetNormalWeakColor() const {
+    return normal_weak_color_;
+  }
+
+  ci::Color Bubble::GetSpecialMediumColor() const {
+    return special_medium_color_;
+  }
+
+  ci::Color Bubble::GetSpecialWeakColor() const {
+    return special_weak_color_;
+  }
+  
 }  // namespace bubblebounce

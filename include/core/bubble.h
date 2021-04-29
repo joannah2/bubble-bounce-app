@@ -49,6 +49,30 @@ namespace bubblebounce {
     void Draw() const;
 
     /**
+     * Sets the normal medium bubble color.
+     * @param color color corresponding to the normal medium bubble
+     */
+    void SetNormalMediumBubbleColor(const ci::Color& color);
+
+    /**
+     * Sets the normal weak bubble color.
+     * @param color color corresponding to the normal weak bubble
+     */
+    void SetNormalWeakBubbleColor(const ci::Color& color);
+
+    /**
+     * Sets the special medium bubble color.
+     * @param color color corresponding to the special medium bubble
+     */
+    void SetSpecialMediumBubbleColor(const ci::Color& color);
+
+    /**
+     * Sets the special weak bubble color.
+     * @param color color corresponding to the special weak bubble
+     */
+    void SetSpecialWeakBubbleColor(const ci::Color& color);
+    
+    /**
      * Overrides if the Ball being compared to has the same color, position,
      * radius, type, and state..
      * @param other_bubble Ball to compare to
@@ -63,7 +87,7 @@ namespace bubblebounce {
     void SetBubbleState(BubbleState state);
     
     /**
-     * Lowers the BubbleState by one level.
+     * Lowers the BubbleState by one level and updates the color correspondingly..
      * (Strong becomes Medium, Medium becomes Weak, Weak becomes Popped,
      * Popped remains popped)
      */
@@ -86,6 +110,30 @@ namespace bubblebounce {
      * @return ci::Color representing the bubble's color
      */
     ci::Color GetColor() const;
+    
+    /**
+     * Get the color of the normal medium bubble.
+     * @return ci::Color representing the bubble's color
+     */
+    ci::Color GetNormalMediumColor() const;
+    
+    /**
+     * Get the color of the normal weak bubble.
+     * @return ci::Color representing the bubble's color
+     */
+    ci::Color GetNormalWeakColor() const;
+    
+    /**
+     * Get the color of the special medium bubble.
+     * @return ci::Color representing the bubble's color
+     */
+    ci::Color GetSpecialMediumColor() const;
+    
+    /**
+     * Get the color of the special weak bubble.
+     * @return ci::Color representing the bubble's color
+     */
+    ci::Color GetSpecialWeakColor() const;
 
     /**
      * Get the 2D vector of the bubble's x and y position.
@@ -111,6 +159,11 @@ namespace bubblebounce {
     glm::vec2 position_;
     BubbleType bubble_type_;
     BubbleState bubble_state_;
+
+    ci::Color normal_medium_color_;
+    ci::Color normal_weak_color_;
+    ci::Color special_medium_color_;
+    ci::Color special_weak_color_;
     
     /**
      * Checks the state to set the bubble doesn't contradict bubble type
