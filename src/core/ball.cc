@@ -17,12 +17,13 @@ namespace bubblebounce {
 
   void Ball::Draw() const {
     ci::gl::color(color_);
-    ci::gl::drawSolidCircle(position_, radius_);
+//    ci::gl::drawSolidCircle(position_, radius_);
     
-//    ci::gl::Texture2dRef ball = ci::gl::Texture::create(ci::loadImage(
-//      ci::app::loadAsset("Ball.png")));
-//    ci::gl::draw(ball, ci::Rectf(glm::vec2{position_.x - ballRadius_, position_.y - ballRadius_},
-//                                 glm::vec2{position_.x + ballRadius_, position_.y + ballRadius_}));
+    ci::gl::Texture2dRef ball = ci::gl::Texture::create(ci::loadImage(
+      ci::app::loadAsset("ball.png")));
+    ci::gl::draw(ball,ci::Rectf(
+      glm::vec2{position_.x - radius_, position_.y - radius_},
+      glm::vec2{position_.x + radius_, position_.y + radius_}));
   }
 
   bool Ball::operator==(const Ball& other_ball) const {
@@ -31,7 +32,6 @@ namespace bubblebounce {
             && velocity_ == other_ball.GetVelocity()
             && radius_ == other_ball.GetRadius());
   }
-  
   
   void Ball::SetVelocityByTarget(const glm::vec2& target_position) {
     float x_velocity = target_position.x - position_.x;
