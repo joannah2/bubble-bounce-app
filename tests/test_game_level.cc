@@ -16,6 +16,7 @@ TEST_CASE("Test constructor and retrieving level attributes") {
     GameLevel level;
     REQUIRE(level.GetLevel() == 0);
     REQUIRE(level.GetPlayerLives() == 0);
+    REQUIRE(level.GetPlayerScore() == 0);
     REQUIRE(level.GetLevelBubbles().empty());
   }
 
@@ -24,6 +25,7 @@ TEST_CASE("Test constructor and retrieving level attributes") {
     GameLevel level(1, 5, bubbles);
     REQUIRE(level.GetLevel() == 1);
     REQUIRE(level.GetPlayerLives() == 5);
+    REQUIRE(level.GetPlayerScore() == 0);
     REQUIRE(level.GetLevelBubbles().empty());
   }
 }
@@ -114,7 +116,6 @@ TEST_CASE("Test proper level logic") {
     GameLevel level(1, 5, white_bubbles);
     REQUIRE_FALSE(level.IsLevelWon());
   }
-
   
   SECTION("Level lost with proper conditions") {
     GameLevel level(1, 0, white_bubbles);
@@ -126,7 +127,7 @@ TEST_CASE("Test proper level logic") {
     REQUIRE_FALSE(level.IsLevelLost());
   }
   
-  SECTION("Level over") {
+  SECTION("Level lost") {
     GameLevel level(1, 0, white_bubbles);
     REQUIRE(level.IsLevelLost());
   }
@@ -134,5 +135,15 @@ TEST_CASE("Test proper level logic") {
   SECTION("Resetting the level for the round") {
     white_level.ResetLevelForRound();
     REQUIRE(white_level.GetPlayerLives() == 4);
+  }
+
+  SECTION("Level over is true when the level lost or won") {
+    GameLevel level(1, 0, white_bubbles);
+    REQUIRE(level.IsLevelOver());
+  }
+  
+  SECTION("Level over is false when level is not lost or won") {
+    GameLevel level(1, 3, white_bubbles);
+    REQUIRE_FALSE(level.IsLevelOver());
   }
 }
