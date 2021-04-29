@@ -17,8 +17,7 @@ namespace bubblebounce {
 
   void Ball::Draw() const {
     ci::gl::color(color_);
-//    ci::gl::drawSolidCircle(position_, radius_);
-    
+   
     ci::gl::Texture2dRef ball = ci::gl::Texture::create(ci::loadImage(
       ci::app::loadAsset("ball.png")));
     ci::gl::draw(ball,ci::Rectf(
@@ -38,7 +37,8 @@ namespace bubblebounce {
     float y_velocity = target_position.y - position_.y;
     
     // create unit vector for velocity using the magnitude
-    float magnitude = sqrt((x_velocity * x_velocity) + (y_velocity * y_velocity));
+    float magnitude = sqrt((x_velocity * x_velocity) 
+                            + (y_velocity * y_velocity));
     
     // multiply by velocity multiplier to keep speed constant 
     velocity_.x = (x_velocity / magnitude) * kVelocityMultiplier;
@@ -54,17 +54,6 @@ namespace bubblebounce {
     position_ = position;
     velocity_ = velocity;
     radius_ = radius;
-  }
-
-  void Ball::SetVelocityByCollision(const glm::vec2& bubble_position) {
-//    if (position_.x < bubble_position.x) {
-//      velocity_.x *= -.99f;
-//    } else if (position_.x > bubble_position.x) {
-//      velocity_.x *= -1.01f;
-//    } else {
-//      velocity_.x *= -1.0f;
-//    }
-    velocity_.y *= -1.0f;
   }
   
   void Ball::IncreasePositionByVelocity() {

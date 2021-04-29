@@ -49,12 +49,6 @@ namespace bubblebounce {
      */
     void ResetAttributes(const ci::Color& color, const glm::vec2& position,
                          const glm::vec2& velocity, const float& radius);
-
-    /**
-     * Sets the ball's velocity according to the bubble's position that it hits
-     * @param bubble_position vec2 of the bubble's position
-     */
-    void SetVelocityByCollision(const glm::vec2& bubble_position);
     
     /**
      * Update the position of the Ball by incrementing it by its velocity.
@@ -120,7 +114,7 @@ namespace bubblebounce {
   private:
     // multiplier for the calculated unit vector of the ball's new velocity 
     // after a hit
-    static constexpr size_t kVelocityMultiplier = 9;
+    static constexpr size_t kVelocityMultiplier = 20;
     
     float radius_;
     ci::Color color_;
