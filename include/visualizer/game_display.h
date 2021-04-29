@@ -34,21 +34,48 @@ namespace bubblebounce {
     void DisplayGameInstructions() const;
     
   private:
-    const std::string kGameWinningMessage = "Game Won!";
-    const std::string kGameOverMessage = "Game Over";
-
+    // message fonts
     const ci::Font kLargeFont = ci::Font("Impact", 150.0f);
     const ci::Font kMediumFont = ci::Font("Ariel", 100.0f);
     const ci::Font kSmallFont = ci::Font("Ariel", 50.0f);
     
+    // panel fonts
     const ci::Font kPanelFont = ci::Font("Impact", 75.0f);
     const ci::Font kPanelValuesFont = ci::Font("Impact", 150.0f);
+    
+    // text colors
+    const ci::Color kBlack = ci::Color("black");
+    const ci::Color kBlue = ci::Color("lightskyblue");
+    const ci::Color kWhite = ci::Color("white");
+    const ci::Color kBackgroundColor = ci::Color8u(255, 255, 255);
+    
+    // message left align by display dimensions
+    static constexpr size_t kMessageAlignmentDivider = 6;
+    
+    // position of panel values: level, lives, score  
+    const glm::vec2 kHighScorePosition = glm::vec2(950, 150);
+    const glm::vec2 kLivesPosition = glm::vec2(950,400);
+    const glm::vec2 kScorePosition = glm::vec2(950,650);
+    
+    // distance between panel values and value label
+    const float kPanelLabelDistance = 50.0f;
+    
+    // panel text
+    const std::string kPanelLabelHighScore = "High Score";
+    const std::string kPanelLabelLives = "Lives";
+    const std::string kPanelLabelScore = "Score";
+    
+    // game summary text
+    const std::string kHighScore = "High Score: ";
+    const std::string kYourScore = "Your Ending Score: ";
+    const std::string kGameWinningMessage = "Game Won!";
+    const std::string kGameOverMessage = "Game Over";
     
     glm::vec2 window_dimensions;
     glm::vec2 game_window_top_left_;
     glm::vec2 panel_bottom_right_;
     
-    size_t level_number_;
+    size_t high_score_;
     size_t score_;
     size_t lives_;
     
@@ -64,11 +91,11 @@ namespace bubblebounce {
      * Draws the popup background for the popup message.
      */
     void DrawPopupBackground() const;
-    
+
     /**
-     * Draws the level number and label.
+     * Draws the high score and label.
      */
-    void DrawLevelNumber() const;
+    void DrawHighscore() const;
     
     /**
      * Draws the score and label.
