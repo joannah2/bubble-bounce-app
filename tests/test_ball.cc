@@ -53,7 +53,7 @@ TEST_CASE("Test invalid ball inputs") {
 
   SECTION("Set color") {
     ball.SetColor(ci::Color("red"));
-    REQUIRE(ball.GetPosition() == glm::vec2{0, 10});
+    REQUIRE(ball.GetPosition() == glm::vec2{0, 0});
   }
 
   SECTION("Set velocity") {
