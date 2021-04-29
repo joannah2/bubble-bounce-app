@@ -39,7 +39,9 @@ namespace bubblebounce {
   
   void Paddle::Draw() const {
     ci::gl::color(color_);
-    ci::gl::drawStrokedRect(ci::Rectf(top_left_, bottom_right_));
+    ci::gl::Texture2dRef paddle = ci::gl::Texture::create(
+      ci::loadImage(ci::app::loadAsset("paddle.jpg")));
+    ci::gl::draw(paddle, ci::Rectf(top_left_, bottom_right_));
   }
   
   glm::vec2 Paddle::GetTopLeftPosition() const {
