@@ -16,7 +16,7 @@ Bubble Bounce consists of following elements:
 The game objective is to pop all the poppable bubbles for the level. By using the mouse, the paddle can be moved horizontally to deflect the ball.
 The game begins when the mouse is clicked to launch the ball in the desired direction. The player must keep the ball alive by keeping it from fallling
 through the bottom of the game windwow. If it falls through the bottom, the player loses a life. The game is over when the player runs out of lives.
-To win, the player must pop all the possible bubbles while having more than 0 lives.
+To win, the player must pop all the possible bubbles while having more than 0 lives. 
 
 ### Bubble Types
 There are 3 types of bubbles:
@@ -28,8 +28,10 @@ Bubbles that can be popped go through 3 stages before popping:
 * Strong : requires 3 hits before popping
 * Medium : requires 2 hits before popping
 * Weak : requires 1 hit before popping
+Each time a poppable bubble is hit, it's state reduces by one level and it's color becomes lighter.
 
 ## Score
 The status panel tracks the remaining lives and score, as well as the player's high score. 
-Each time a poppable bubble is hit, its state lowers by one stage.
 Once a weak state bubble is hit, it pops and the player earns its corresponding point value.
+For each new life, the score resets to 0 but the game keeps track of the player's high score.
+Once all the bubbles are popped or the player runs out of lives, the game ends and the player recieves the highest score from their attempts.
