@@ -1,11 +1,17 @@
 #include <visualizer/bubble_bounce_app.h>
-
+//#include <visualizer/game_display.h>
 
 namespace bubblebounce {
-
+  
   GameDisplay::GameDisplay(const glm::vec2& window,
                            const glm::vec2& game_window_top_left,
                            const glm::vec2& panel_bottom_right) {
+
+    if (game_window_top_left.x > window.x || game_window_top_left.y < 0.0f
+        || panel_bottom_right.y > window.y|| panel_bottom_right.x > window.x) {
+      throw std::invalid_argument("Window dimensions don't match");
+    }
+
     window_dimensions = window;
     game_window_top_left_ = game_window_top_left;
     panel_bottom_right_ = panel_bottom_right;
@@ -148,5 +154,5 @@ namespace bubblebounce {
     ci::gl::drawStringCentered(std::to_string(score_), kScorePosition,
                                kBlue, kPanelValuesFont);
   }
-
+  
 }  // namespace bubblebounce

@@ -1,7 +1,8 @@
 #pragma once
 
+#include <core/game_level.h>
 #include <cinder/Color.h>
-
+#include <cinder/Font.h>
 #include "glm/glm.hpp"
 
 namespace bubblebounce {
@@ -36,13 +37,13 @@ namespace bubblebounce {
   private:
     // message fonts
     const ci::Font kLargeFont = ci::Font("Impact", 150.0f);
-    const ci::Font kMediumFont = ci::Font("Ariel", 100.0f);
-    const ci::Font kSmallFont = ci::Font("Ariel", 50.0f);
-    
+    const ci::Font kMediumFont = ci::Font("Arial", 100.0f);
+    const ci::Font kSmallFont = ci::Font("Arial", 50.0f);
+
     // panel fonts
     const ci::Font kPanelFont = ci::Font("Impact", 75.0f);
     const ci::Font kPanelValuesFont = ci::Font("Impact", 150.0f);
-    
+
     // text colors
     const ci::Color kBlack = ci::Color("black");
     const ci::Color kTeal = ci::Color("teal");
