@@ -31,7 +31,7 @@ namespace bubblebounce {
     glm::vec2 line_5 = glm::vec2{message_center,550};
     glm::vec2 line_6 = glm::vec2{message_center,650};
 
-    ci::gl::drawStringCentered("Bubble Bounce", line_1, kBlue,
+    ci::gl::drawStringCentered("Bubble Bounce", line_1, kTeal,
                                kLargeFont);
 
     ci::gl::drawString("- Click to launch the ball at start of round",
@@ -53,7 +53,8 @@ namespace bubblebounce {
   void GameDisplay::DrawBackground() const {
     ci::gl::color(kBackgroundColor);
     ci::gl::Texture2dRef image = ci::gl::Texture::create(
-      ci::loadImage(ci::app::loadAsset("c_1.png")));
+      ci::loadImage(ci::app::loadAsset(
+        kBackgroundAsset)));
     ci::gl::draw(image, ci::Rectf(glm::vec2{0, 0},
                                   window_dimensions));
   }
@@ -61,7 +62,7 @@ namespace bubblebounce {
   void GameDisplay::DrawPopupBackground() const {
     ci::gl::color(kBackgroundColor);
     ci::gl::Texture2dRef popup_background = ci::gl::Texture::create(
-      ci::loadImage(ci::app::loadAsset("wood.jpg")));
+      ci::loadImage(ci::app::loadAsset(kWoodAsset)));
     ci::gl::draw(popup_background, ci::Rectf(game_window_top_left_,
                                              panel_bottom_right_));
   }
@@ -101,9 +102,9 @@ namespace bubblebounce {
     ci::gl::drawStringCentered(kHighScore + std::to_string(high_score_),
                                line_2, kWhite, kMediumFont);
 
-    // Draw score
-    ci::gl::drawStringCentered(kYourScore + std::to_string(score_),
-                               line_3, kWhite,kMediumFont);
+    // Draw lives
+    ci::gl::drawStringCentered(kLivesLeft + std::to_string(lives_),
+                               line_3, kWhite, kMediumFont);
   }
 
   void GameDisplay::UpdateDisplay(const GameLevel& level) {

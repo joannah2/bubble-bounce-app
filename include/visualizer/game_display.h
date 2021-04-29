@@ -45,6 +45,7 @@ namespace bubblebounce {
     
     // text colors
     const ci::Color kBlack = ci::Color("black");
+    const ci::Color kTeal = ci::Color("teal");
     const ci::Color kBlue = ci::Color("lightskyblue");
     const ci::Color kWhite = ci::Color("white");
     const ci::Color kBackgroundColor = ci::Color8u(255, 255, 255);
@@ -67,9 +68,13 @@ namespace bubblebounce {
     
     // game summary text
     const std::string kHighScore = "High Score: ";
-    const std::string kYourScore = "Your Ending Score: ";
+    const std::string kLivesLeft = "Lives Left: ";
     const std::string kGameWinningMessage = "Game Won!";
     const std::string kGameOverMessage = "Game Over";
+
+    // image assets
+    const std::string kBackgroundAsset = "background.png";
+    const std::string kWoodAsset = "wood.jpg";
     
     glm::vec2 window_dimensions;
     glm::vec2 game_window_top_left_;

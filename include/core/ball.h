@@ -115,6 +115,7 @@ namespace bubblebounce {
     // multiplier for the calculated unit vector of the ball's new velocity 
     // after a hit
     static constexpr size_t kVelocityMultiplier = 20;
+    const std::string kBallAsset = "ball.png";
     
     float radius_;
     ci::Color color_;

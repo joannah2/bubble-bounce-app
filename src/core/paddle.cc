@@ -40,7 +40,7 @@ namespace bubblebounce {
   void Paddle::Draw() const {
     ci::gl::color(color_);
     ci::gl::Texture2dRef paddle = ci::gl::Texture::create(
-      ci::loadImage(ci::app::loadAsset("paddle.jpg")));
+ci::loadImage(ci::app::loadAsset(kPaddleAsset)));
     ci::gl::draw(paddle, ci::Rectf(top_left_, bottom_right_));
   }
   

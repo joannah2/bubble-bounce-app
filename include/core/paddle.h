@@ -70,6 +70,8 @@ namespace bubblebounce {
                          const ci::Color& color);
 
   private:
+    const std::string kPaddleAsset = "paddle.jpg";
+    
     glm::vec2 top_left_;
     glm::vec2 bottom_right_;
     double length_;

@@ -19,7 +19,7 @@ namespace bubblebounce {
     ci::gl::color(color_);
    
     ci::gl::Texture2dRef ball = ci::gl::Texture::create(ci::loadImage(
-      ci::app::loadAsset("ball.png")));
+      ci::app::loadAsset(kBallAsset)));
     ci::gl::draw(ball,ci::Rectf(
       glm::vec2{position_.x - radius_, position_.y - radius_},
       glm::vec2{position_.x + radius_, position_.y + radius_}));
