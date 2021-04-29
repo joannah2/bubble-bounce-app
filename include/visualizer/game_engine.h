@@ -72,8 +72,6 @@ namespace bubblebounce {
     GameLevel GetCurrentLevel() const;
 
   private:
-    // game window attributes
-    const ci::Color kGameEngineWallColor = "white";
     glm::vec2 top_left_;
     glm::vec2 bottom_right_;
     

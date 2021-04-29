@@ -1,11 +1,10 @@
 #include "visualizer/game_engine.h"
 
 namespace bubblebounce {
-//  using glm::vec2;
   const glm::vec2 kPaddleTopLeft{350, 750};
   const glm::vec2 kPaddleBottomRight{550, 800};
-  const ci::Color kPaddleColor("white");
-  const ci::Color kBallColor("white");
+  const ci::Color kPaddleColor("antiquewhite");
+  const ci::Color kBallColor("aliceblue");
   static constexpr float kDefaultBallRadius = 25.0f;
   const glm::vec2 kDefaultBallPosition{450, 725};
   const glm::vec2 kDefaultBallVelocity{0, 0};
@@ -23,17 +22,8 @@ namespace bubblebounce {
     bottom_right_ = bottom_right;
     current_level_ = level_generator_.GetGeneratedGameLevel(1);
   }
-/**
- * Current change:
- * - allow game level to handle the bubbles and the player lives
- * - game engine keeps control of the ball and paddle
- */
-  
   
   void GameEngine::Display() const {
-    ci::gl::color(kGameEngineWallColor);
-    ci::gl::drawStrokedRect(ci::Rectf(top_left_, bottom_right_));
-    
     current_level_.Draw();
     ball_.Draw();
     paddle_.Draw();
