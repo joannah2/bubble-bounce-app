@@ -46,30 +46,38 @@ namespace bubblebounce {
         
         if (random_int == kUnpoppableBubbleValue 
             && unpoppable_count < kMaxUnpoppableBubbles[level]) {
-          color = "grey";
+          color = kUnpoppableColor;
           type = Bubble::Unpoppable;
           state = Bubble::Strong;
           ++unpoppable_count;
         } else if (random_int <= kSpecialBubbleValue 
                     && special_count < kMaxSpecialBubbles[level]) {
-          color = "pink";
+          color = kSpecialColor;
           type = Bubble::SpecialBubble;
           state = Bubble::Strong;
           ++special_count;
         } else {
-          color = "teal";
+          color = kNormalColor;
           type = Bubble::NormalBubble;
           state = Bubble::Strong;
         }
         
         Bubble bubble(color, glm::vec2(0, 0), kBubbleRadius, type,
                       state);
+        SetBubbleStateColorsForAllTypes(bubble);
         bubbles.emplace_back(bubble);
       }
       GenerateBubblePositions(bubbles, level);
       levels_.emplace_back(GameLevel(level,
                            kInitialStartingLives[level], bubbles));
     }
+  }
+  
+  void LevelGenerator::SetBubbleStateColorsForAllTypes(Bubble& bubble){
+    bubble.SetNormalMediumBubbleColor(kNormalMediumColor);
+    bubble.SetNormalWeakBubbleColor(kNormalWeakColor);
+    bubble.SetSpecialMediumBubbleColor(kSpecialMediumColor);
+    bubble.SetSpecialWeakBubbleColor(kSpecialWeakColor);
   }
   
   void LevelGenerator::GenerateBubblePositions(std::vector<Bubble>& bubbles,
@@ -107,5 +115,5 @@ namespace bubblebounce {
   size_t LevelGenerator::GetNumberOfLevels() {
     return kNumberOfLevels;
   }
-  
+
 }  // namespace bubblebounce

@@ -54,7 +54,7 @@ namespace bubblebounce {
     const std::vector<size_t> kInitialBubbleCount{0, 35};
     const std::vector<size_t> kMaxUnpoppableBubbles{0, 4};
     const std::vector<size_t> kMaxSpecialBubbles{0, 7};
-    const std::vector<size_t> kInitialStartingLives{0, 5};
+    const std::vector<size_t> kInitialStartingLives{0, 3};
 
     // constants for creating random generation of types of bubbles
     static constexpr size_t kMinRandomDistribution = 0;
@@ -64,9 +64,19 @@ namespace bubblebounce {
     
     static constexpr float kBubbleRadius = 40.0f;
     
+    const ci::Color kUnpoppableColor = ci::Color("silver");
+    const ci::Color kNormalColor = ci::Color("skyblue");
+    const ci::Color kSpecialColor = ci::Color("lightpink");
+    const ci::Color kSpecialMediumColor = ci::Color("pink");
+    const ci::Color kSpecialWeakColor = ci::Color("mistyrose");
+    const ci::Color kNormalMediumColor = ci::Color("paleturquoise");
+    const ci::Color kNormalWeakColor = ci::Color("lightcyan");
+
     glm::vec2 left_corner_;
     glm::vec2 right_corner_;
     std::vector<GameLevel> levels_;
+    
+    void SetBubbleStateColorsForAllTypes(Bubble& bubble);
     
     /**
      * Initializes game levels with respective randomized bubbles.
