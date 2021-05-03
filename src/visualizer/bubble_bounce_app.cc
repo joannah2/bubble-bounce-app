@@ -51,6 +51,8 @@ namespace bubblebounce {
       case ci::app::KeyEvent::KEY_r: // reset the game
         game_engine_.NewGame();
         is_new_round_ = true;
+        is_game_over_ = false;
+        is_paused_ = true;
         break;
     }
   }

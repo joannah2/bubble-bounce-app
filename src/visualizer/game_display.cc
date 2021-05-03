@@ -99,6 +99,7 @@ namespace bubblebounce {
     glm::vec2 line_1 = glm::vec2{message_center,250};
     glm::vec2 line_2 = glm::vec2{message_center,450};
     glm::vec2 line_3 = glm::vec2{message_center,550};
+    glm::vec2 line_4 = glm::vec2{message_center,700};
 
     // Draw message
     ci::gl::drawStringCentered(game_message, line_1, kBlue,
@@ -111,6 +112,10 @@ namespace bubblebounce {
     // Draw lives
     ci::gl::drawStringCentered(kLivesLeft + std::to_string(lives_),
                                line_3, kWhite, kMediumFont);
+
+    // Draw instructions to replay game
+    ci::gl::drawStringCentered("Press [r] to Reset the Game", line_4,
+                               kBlack,kSmallFont);
   }
 
   void GameDisplay::UpdateDisplay(const GameLevel& level) {
@@ -122,8 +127,8 @@ namespace bubblebounce {
     if (score_ != score) score_ = score;
     
     // opposite of IsLevelWon is not the same as IsLevelLost
-    if (level.IsLevelWon()) is_game_won_ = true;
-    if (level.IsLevelLost()) is_game_over_ = true;
+    is_game_won_ = level.IsLevelWon();
+    is_game_over_ = level.IsLevelLost();
   }
 
   void GameDisplay::DrawHighscore() const {
