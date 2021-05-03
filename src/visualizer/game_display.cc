@@ -1,5 +1,4 @@
 #include <visualizer/bubble_bounce_app.h>
-//#include <visualizer/game_display.h>
 
 namespace bubblebounce {
   
