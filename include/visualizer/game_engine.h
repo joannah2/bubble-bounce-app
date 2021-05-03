@@ -10,7 +10,9 @@ namespace bubblebounce {
 /**
  * The container within where the game interactions occur. This class stores the
  * ball, paddle, and the game level which contains the bubbles. It updates them
- * correspondingly on each frame of the simulation.
+ * correspondingly on each frame of the simulation. Game Engine handles what 
+ * the player has control over: the paddle and the ball which they manipulate
+ * using the paddle. 
  */
   class GameEngine {
   public:
