@@ -23,15 +23,7 @@ namespace bubblebounce {
     special_weak_color_ = color;
   }
 
-  void Bubble::ValidateBubbleState(const BubbleState& state) {
-    if (state == Popped && bubble_type_ == Unpoppable) {
-      throw std::invalid_argument("Unpoppable bubble cannot be popped");
-    }
-  }
-
   void Bubble::LowerBubbleState() {
-    if (bubble_type_ == Unpoppable) return;
-    
     switch (bubble_state_) {
       case Strong:
         bubble_state_ = Medium;
@@ -56,6 +48,12 @@ namespace bubblebounce {
   void Bubble::SetBubbleState(Bubble::BubbleState state) {
     ValidateBubbleState(state);
     bubble_state_ = state;
+  }
+  
+  void Bubble::ValidateBubbleState(const BubbleState& state) {
+    if (state == Popped && bubble_type_ == Unpoppable) {
+      throw std::invalid_argument("Unpoppable bubble cannot be popped");
+    }
   }
   
   void Bubble::Draw() const {
